@@ -1,7 +1,9 @@
 import Vue from 'vue'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faBars, faShoppingCart } from '@fortawesome/free-solid-svg-icons'
+import { faBars, faMapLocationDot, faPhone, faEnvelope } from '@fortawesome/free-solid-svg-icons'
+import { faFacebook, faYoutube, faXTwitter, faTiktok } from '@fortawesome/free-brands-svg-icons'
+
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-library.add(faBars, faShoppingCart)
+library.add(faBars, faMapLocationDot, faPhone, faEnvelope, faFacebook, faYoutube, faXTwitter, faTiktok)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
