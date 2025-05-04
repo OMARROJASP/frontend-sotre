@@ -98,13 +98,22 @@
           font-size: 15px;
           color: white;
           flex-direction: column;
+
           opacity: 0;
+  transform: translateY(-10px);
   max-height: 0;
   overflow: hidden;
-  transition: opacity 0.3s ease, max-height 0.3s ease;
-        }
+  transition: all 0.4s ease;
+  pointer-events: none;
 
-        .menu-item{
+  &--visible {
+    opacity: 1;
+    transform: translateY(0);
+    max-height: 1000px; // o lo que necesites
+    pointer-events: auto;
+  }
+
+           .menu-item{
           cursor: pointer;
           text-decoration: none;
           color: white;
@@ -112,6 +121,9 @@
             color: #F5A61A;
           }
         }
+        }
+
+
       }
       // para el apartado de contacto
       .footer-menu-contact-item{

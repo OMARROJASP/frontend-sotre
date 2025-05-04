@@ -41,7 +41,7 @@
           </div>
         </div>
         <!-- Para mobile  -->
-        <div v-show="showOptions === 1" class="container-menu-item-mobile">
+        <div :class="['container-menu-item-mobile', { 'container-menu-item-mobile--visible': showOptions === 1 }]">
           <div>
             <nuxt-link to="/productos" class="menu-item">
               Productos
