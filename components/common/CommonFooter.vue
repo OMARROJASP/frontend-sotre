@@ -10,10 +10,38 @@
         </p>
       </div>
       <div class="footer-menu">
-        <p class="container-menu-item-title">
-          Enlace de Navegacion
-        </p>
+        <div class="container-menu-item-title" @click="toggleOptions(1)">
+          <div class="title">
+            Enlace de Navegacion
+          </div>
+          <div class="icon-plus">
+            <font-awesome-icon :icon="['fas', 'plus']" size="2xs" style="color: #FFD43B;" />
+          </div>
+        </div>
         <div class="container-menu-item">
+          <div>
+            <nuxt-link to="/productos" class="menu-item">
+              Productos
+            </nuxt-link>
+          </div>
+          <div>
+            <nuxt-link to="/ofertas" class="menu-item">
+              Ofertas
+            </nuxt-link>
+          </div>
+          <div>
+            <nuxt-link to="/nosotros" class="menu-item">
+              Nosotros
+            </nuxt-link>
+          </div>
+          <div>
+            <nuxt-link to="/contactos" class="menu-item">
+              Contacto
+            </nuxt-link>
+          </div>
+        </div>
+        <!-- Para mobile  -->
+        <div v-show="showOptions === 1" class="container-menu-item-mobile">
           <div>
             <nuxt-link to="/productos" class="menu-item">
               Productos
@@ -98,5 +126,23 @@
   </div>
 </template>
 <script>
-
+export default {
+  name: 'CommonFooter',
+  data () {
+    return {
+      lugar: 'Lima',
+      showOptions: 0
+    }
+  },
+  methods: {
+    // Add any methods you need here
+    toggleOptions (option) {
+      if (option === this.showOptions) {
+        this.showOptions = 0
+      } else {
+        this.showOptions = option
+      }
+    }
+  }
+}
 </script>

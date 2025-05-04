@@ -40,10 +40,31 @@
         font-weight: bolder;
         text-align: center;
         @include mobile(){
+          display: flex;
+          width: 100%;
+        }
+        .title{
+          margin: 10px 0px;
+          @include mobile(){
+            width: 80%;
+            margin: 0px;
+          }
+        }
+        .icon-plus{
+          display: none;
+        }
+        @include mobile(){
           border: 2px solid #F5A61A;
           width: 100%;
           padding: 10px 0px;
           margin: 5px 0px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          .icon-plus{
+            display: block;
+            width: 20px;
+          }
         }
       }
       // para el aparta de sitios web
@@ -56,6 +77,31 @@
         flex-direction: column;
         @include mobile(){
           display: none;
+        }
+
+        .menu-item{
+          cursor: pointer;
+          text-decoration: none;
+          color: white;
+          &:hover{
+            color: #F5A61A;
+          }
+        }
+      }
+      // para mobile
+      .container-menu-item-mobile{
+
+        @include mobile(){
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          font-size: 15px;
+          color: white;
+          flex-direction: column;
+          opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+  transition: opacity 0.3s ease, max-height 0.3s ease;
         }
 
         .menu-item{
