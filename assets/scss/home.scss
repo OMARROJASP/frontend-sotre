@@ -1,25 +1,19 @@
 .banner {
-  overflow: hidden;
+  overflow: hidden; // Oculta el contenido fuera del área visible
   position: relative;
-
+  margin: 8px -8px;
   &__slider {
-    display: flex;
-    width: 100%;
-    transition: transform 0.5s ease-in-out;
+    display: flex; // Coloca los slides uno al lado del otro
+    transition: transform 0.5s ease-in-out; // Hace que el cambio de imagen sea suave
   }
 
   &__slide {
-    min-width: 100%;
+    min-width: 100%; // Cada imagen ocupa el 100% del contenedor
     box-sizing: border-box;
-
-    a {
-      display: block;
-    }
 
     .img-banner {
       width: 100%;
       height: auto;
-      display: block;
     }
   }
 }
