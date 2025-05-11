@@ -3,13 +3,19 @@
     <CommonHeader />
     <div>
       <CarrucelHome />
-      <div>
-        Hola, FULANITO
+      <div class="intro">
+        Hola, <span>FULANITO</span>
         <br/>
         Bienvenido a Rukanas Store
       </div>
+      <hr class="division"/>
       <div>
-        <CarrucelOferta />
+        <CategoriaHome titulo="Categoria" ref=""/>
+      </div>
+      <div>
+        <CarrucelOferta titulo="Oferta" />
+      </div>
+      <div>
       </div>
     </div>
     <CommonFooter />
@@ -20,20 +26,23 @@
 import CommonHeader from '@/components/common/CommonHeader.vue'
 import CommonFooter from '@/components/common/CommonFooter.vue'
 import CarrucelHome from '@/components/home/Carrucel.vue'
-import CarrucelOferta from '@/components/common/CommonCarrucel.vue'
+import CarrucelOferta from '@/components/common/CommonCarrucelv2.vue'
+import CategoriaHome from '@/components/home/Categoria.vue'
 export default {
   name: 'IndexPage',
   components: {
     CommonHeader,
     CommonFooter,
     CarrucelHome,
-    CarrucelOferta
+    CarrucelOferta,
+    CategoriaHome
   },
   data () {
     return {
       lugar: 'Lima'
     }
   }
+
 }
 
 </script>

@@ -1,7 +1,7 @@
 <template>
   <div class="banner">
     <div class="banner__slider" :style="{ transform: `translateX(-${currentIndex * 100}%)` }">
-      <div v-for="(image, index) in images" :key="index" class="banner__slide">
+      <div v-for="(image, index) in images" :key="index" :class="['banner__slide', { active: currentIndex === index }]">
         <nuxt-link to="/productos">
           <img :src="image" alt="Banner" class="img-banner" />
         </nuxt-link>
@@ -16,8 +16,8 @@ export default {
   data () {
     return {
       images: [
-        'https://images.ctfassets.net/rhgb4uz1u34u/ouAyK7vpLRlq8bZt4tKHG/4db0335c5471722646714bc67a76a069/slider-doh-0505-moda-desktop-a.webp',
-        'https://plazavea.vteximg.com.br/arquivos/HP-BANNER-PRINCIPAL-NF-D-07-MAY-2025-D.webp?v=638822288508770000'
+        'https://i.pinimg.com/736x/86/f4/63/86f463995f71aa9c87dd934ca927ef24.jpg',
+        'https://i.pinimg.com/736x/fe/59/97/fe5997fd5db229a56013ebaab404f5fd.jpg'
       ],
       currentIndex: 0,
       interval: null

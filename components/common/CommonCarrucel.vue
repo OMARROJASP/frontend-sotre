@@ -1,7 +1,7 @@
 <template>
   <div>
-    <h2>Ofertas</h2>
-    <div class="carrucel">
+    <h2>{{ titulo }}</h2>
+    <div class="carrucelv1">
       <button class="arrow left" @click="prevSlide">‹</button>
       <div class="carrucel__slider" :style="{ transform: `translateX(-${currentIndex * 100}%)` }">
         <div v-for="(producto, index) in productos" :key="index" class="carrucel__slide">
@@ -26,6 +26,12 @@
 <script>
 export default {
   name: 'CarrucelOferta',
+  props: {
+    titulo: {
+      type: String,
+      default: 'Carrusel de Productos'
+    }
+  },
   data () {
     return {
       productos: [

@@ -1,13 +1,15 @@
-.carrucelv1 {
+@use '../utilities.scss' as *;
+.carrucel {
   position: relative;
   overflow: hidden;
   max-width: 100%;
-  margin: auto;
+  margin: 10px 0px;
 
   .carrucel__slider {
     display: flex;
     transition: transform 0.5s ease;
     width: 100%;
+    margin-bottom: 20px;
   }
 
   .carrucel__group {
@@ -20,30 +22,43 @@
     padding: 10px;
     box-sizing: border-box;
     text-align: center;
+    background: #E6E6E6;
+    margin:0px 10px;
+    border-radius: 10px;
+    width: 100%;
+    box-shadow: 15px 15px 8px -4px rgba(0, 0, 0, 0.2);
     .orden--product{
       display: flex;
-      text-decoration: none;
-      background: #E6E6E6;
-      padding: 10px;
-      border-radius: 10px;
-      min-height: 150px;
+
       .text{
         color: black;
         font-weight: bold;
-        font-size: 12px;
+        font-size: 10px;
         display: flex;
         flex-direction: column;
         align-items: center;
+        width: 50%;
         .price{
           background: white;
-          padding: 10px 5px;
+          padding: 15px 10px;
         }
       }
-      img {
-        width: 100%;
-        height: 100px;
-        object-fit: cover;
+      .container-img{
+        width: 50%;
+        @include mobile() {
+          padding: 5px;
+          display: flex;
+        }
+        img {
+          max-height: 124px;
+          height: auto;
+          @include mobile() {
+            width: 70px;
+            height: auto;
+          }
+        }
       }
+
     }
 
 

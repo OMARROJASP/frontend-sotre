@@ -1,19 +1,111 @@
-.banner {
-  overflow: hidden; // Oculta el contenido fuera del área visible
-  position: relative;
-  margin: 8px -8px;
-  &__slider {
-    display: flex; // Coloca los slides uno al lado del otro
-    transition: transform 0.5s ease-in-out; // Hace que el cambio de imagen sea suave
+@use 'utilities' as *;
+
+ .banner {
+   overflow: hidden; // Oculta el contenido fuera del área visible
+   position: relative;
+   margin: 8px -8px;
+   font-family: 'Roboto', sans-serif;
+   &__slider {
+     display: flex; // Coloca los slides uno al lado del otro
+     transition: transform 0.5s ease-in-out; // Hace que el cambio de imagen sea suave
+     height: auto;
+   }
+
+   &__slide {
+     min-width: 100%; // Cada imagen ocupa el 100% del contenedor
+     box-sizing: border-box;
+
+     .img-banner {
+       width: 100%;
+       height: 350px;
+
+       @include mobile() {
+         height: auto;
+       }
+     }
+   }
+ }
+
+ .intro{
+  font-size: 15px;
+  font-weight: 500;
+  margin-left: 30px;
+  span{
+    color: red;
+    font-weight: 600;
   }
+ }
+ .division{
+  border: 1px solid red;
+ }
 
-  &__slide {
-    min-width: 100%; // Cada imagen ocupa el 100% del contenedor
-    box-sizing: border-box;
-
-    .img-banner {
-      width: 100%;
-      height: auto;
+ .section{
+  &__categories{
+    .title{
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 10px;
+      @include mobile(){
+        font-size: 10px;
+      }
     }
+    .list-categories{
+      display: grid;
+      gap: 30px;
+      grid-template-columns: repeat(4, 1fr);
+
+      @include mobile(){
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+      }
+      .category{
+      display: flex;
+      margin-bottom: 10px;
+      padding: 10px;
+      border-radius: 5px;
+      background-color: #f0f0f0;
+      box-shadow: 5px 5px 10px -4px gray;
+      cursor: pointer;
+
+      &:hover{
+        background-color: #e0e0e0;
+      }
+
+      &__item{
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        width: 100%;
+
+        .category__name{
+          font-size: 20px;
+          font-weight: 600;
+          width: 50%;
+          @include mobile(){
+            font-size: 10px;
+          }
+        }
+
+        .category__image{
+
+          color: #888;
+          width: 50%;
+
+          img{
+            @include mobile(){
+              height: 50px;
+            }
+            height: 100px;
+          }
+        }
+
+      }
+
+
+
+    }
+    }
+
+
   }
-}
+ }
