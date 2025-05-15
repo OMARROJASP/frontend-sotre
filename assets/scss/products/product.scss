@@ -26,7 +26,7 @@
         height: 180px; /* Altura fija para la imagen */
         background: #f5f5f5; /* Color de fondo */
         display: flex;
-        align-items: center;
+        //align-items: center;
         justify-content: center;
         overflow: hidden;
 
@@ -50,15 +50,30 @@
     justify-content: center;
     align-items: center;
     padding: 2rem;
-    min-height: 100vh;
+    //min-height: 100vh;
 
     .content {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
       width: 100%;
       max-width: 1200px;
       border: 1px solid black;
       padding: 2rem;
       border-radius: 8px;
       background-color: antiquewhite;
+
+      &__img{
+        display: flex;
+        justify-content: center;
+
+      }
+
+      &__info{
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+      }
 
     }
   }
