@@ -74,11 +74,20 @@ export default {
   name: 'CommonHeader',
   components: {
   },
+  props: {
+    size: {
+      type: String,
+      required: false, // ¿Es requerida?
+      default: 'medium', // ¿Tiene un valor por defecto?
+      validator: value => ['small', 'medium', 'large'].includes(value)
+    }
+  },
   data () {
     return {
       showMenuMobile: false
     }
   },
+
   methods: {
     toggleMenuMobile () {
       this.showMenuMobile = !this.showMenuMobile

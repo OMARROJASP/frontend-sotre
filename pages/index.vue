@@ -1,6 +1,6 @@
 <template>
   <div>
-    <CommonHeader />
+    <CommonHeader size="large" />
     <div>
       <CarrucelHome />
       <div class="intro">

@@ -58,6 +58,9 @@
         grid-template-columns: repeat(2, 1fr);
         gap: 10px;
       }
+      @include desktop-small(){
+        grid-template-columns: repeat(3, 1fr);
+      }
       .category{
       display: flex;
       margin-bottom: 10px;
@@ -89,8 +92,6 @@
         .category__image{
 
           color: #888;
-          width: 50%;
-
           img{
             @include mobile(){
               height: 50px;
