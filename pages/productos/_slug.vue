@@ -8,10 +8,42 @@
             <img :src="product.prod_imageUrl"/>
           </div>
           <div class="content__info">
-            <h3>{{ product.prod_name }}</h3>
-            <h4>{{ product.prod_description }}</h4>
-            <h3>S/ {{ product.prod_price }}</h3>
-            <h3>Stock {{ product.prod_stock }}</h3>
+            <!-- Name -->
+            <div class="section__name">
+              <h3>{{ product.prod_name }}</h3>
+            </div>
+            <!-- Price -->
+            <div class="section__price">
+              <div class="section__price__text">
+                <span class="regular">Precio Regular</span>
+                <span class="offer">Precio Oferta</span>
+              </div>
+              <div class="section__price__money">
+                <span class="regular">S/ {{ product.prod_price }}</span>
+                <span class="offer">S/ {{ product.prod_price }}</span>
+              </div>
+            </div>
+            <!-- quenty and buy-->
+            <div class="section__buy">
+              <!-- Quenty-->
+              <div class="section__buy__button-quenty">
+                <button class="minus">
+                  <font-awesome-icon :icon="['fas','minus']" size="2xs" style="color: #fff;" />
+                </button>
+                <div class="quenty">
+                  {{ quenty }}
+                </div>
+                <button class="plus">
+                  <font-awesome-icon :icon="['fas','plus']" size="2xs" style="color: #fff;" />
+                </button>
+              </div>
+              <!-- buy -->
+              <button class="section__buy__button-buy"> Comprar </button>
+            </div>
+            <!-- Stock-->
+            <div class="section__stock" :class="product.prod_stock > 0?'section__stock__available':'section__stock__no-available'">
+              {{ product.prod_stock?'Stock Disponible':'Stock No Disponible' }}
+            </div>
           </div>
         </div>
       </div>
@@ -29,7 +61,8 @@ export default {
   },
   data () {
     return {
-      idProduct: ''
+      idProduct: '',
+      quenty: 0
     }
   },
   computed: {
