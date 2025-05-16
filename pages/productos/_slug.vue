@@ -27,18 +27,18 @@
             <div class="section__buy">
               <!-- Quenty-->
               <div class="section__buy__button-quenty">
-                <button class="minus">
+                <button class="minus" @click="getQuenty(-1)">
                   <font-awesome-icon :icon="['fas','minus']" size="2xs" style="color: #fff;" />
                 </button>
                 <div class="quenty">
                   {{ quenty }}
                 </div>
-                <button class="plus">
+                <button class="plus" @click="getQuenty(1)">
                   <font-awesome-icon :icon="['fas','plus']" size="2xs" style="color: #fff;" />
                 </button>
               </div>
               <!-- buy -->
-              <button class="section__buy__button-buy"> Comprar </button>
+              <button class="section__buy__button-buy">Comprar</button>
             </div>
             <!-- Stock-->
             <div class="section__stock" :class="product.prod_stock > 0?'section__stock__available':'section__stock__no-available'">
@@ -62,7 +62,7 @@ export default {
   data () {
     return {
       idProduct: '',
-      quenty: 0
+      quenty: 1
     }
   },
   computed: {
@@ -73,6 +73,15 @@ export default {
   mounted () {
     this.idProduct = this.$route.params.slug
     this.$store.dispatch('products/loadProduct', this.idProduct)
+  },
+  methods: {
+    getQuenty (data) {
+      if (this.quenty > 0) {
+        this.quenty += data
+      } else {
+        this.quenty = 1
+      }
+    }
   }
 }
 </script>

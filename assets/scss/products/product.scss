@@ -137,6 +137,12 @@
                 align-items: center;
                 justify-content: center;
                 border: none;
+                cursor: pointer;
+                transition: transform 0.1s ease;
+
+                &:active{
+                  transform: scale(0.95);
+                }
               }
 
               .quenty{
@@ -156,6 +162,12 @@
                 border-radius: 100%;
                 border: 2px solid red;
                 padding: 10px 12px;
+                cursor: pointer;
+                transition: transform 0.1s ease;
+
+                &:active{
+                  transform: scale(0.95);
+                }
               }
             }
 
@@ -166,6 +178,13 @@
               border-radius: 12px;
               border: 2px solid red;
               padding: 10px 20px;
+              cursor: pointer;
+              transition: transform 0.2s ease-in-out;
+
+
+              &:hover{
+                transform: scale(1.1);
+              }
             }
           }
 
