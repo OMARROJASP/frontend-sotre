@@ -1,16 +1,16 @@
 <template>
   <div class="body-header">
     <div class="container-header-left">
-      <div class="logo-title">
+      <nuxt-link class="logo-title" to="/">
         <p class="title-orange">
           RUKANAS
         </p>
         <p class="title-white">
           STORE
         </p>
-      </div>
+      </nuxt-link>
       <div class="header-menu">
-        <nuxt-link to="inicio" class="menu-item">
+        <nuxt-link to="/" class="menu-item">
           Inicio
         </nuxt-link>
         <nuxt-link to="/productos" class="menu-item">
