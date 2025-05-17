@@ -26,13 +26,27 @@
         <div class="container__list-product">
           <nuxt-link v-for="producto in listProducts" :key="producto.prod_id" :to="`/productos/${producto.prod_id}`">
             <div class="product">
-              <div class="product__title">
-                <h3>
-                  {{ producto.prod_name }}
-                </h3>
-              </div>
               <div class="product__body">
                 <img :src="producto.prod_imageUrl" alt="Imagen de la producto">
+              </div>
+              <div>
+                <div class="product__title">
+                  <h3>
+                    {{ producto.prod_name }}
+                  </h3>
+                </div>
+                <div class="product">
+                  <div class="product__price">
+                    <div class="product__price__text">
+                      <span class="regular">Precio Regular</span>
+                      <span class="offer">Precio Oferta</span>
+                    </div>
+                    <div class="product__price__money">
+                      <span class="regular">S/ {{ producto.prod_price }}</span>
+                      <span class="offer">S/ {{ producto.prod_price }}</span>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </nuxt-link>
