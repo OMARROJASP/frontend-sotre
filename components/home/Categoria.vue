@@ -7,7 +7,7 @@
         </h2>
       </div>
       <div class="list-categories">
-        <nuxt-link v-for="categoria in listCategories" :key="categoria.cat_id" class="category" to="/productos">
+        <nuxt-link v-for="categoria in listCategories" :key="categoria.cat_id" class="category" :to="{ path:'/productos' , query: { category : categoria.cat_id }}">
           <div class="category__item">
             <h3 class="category__name">
               {{ categoria.cat_name }}

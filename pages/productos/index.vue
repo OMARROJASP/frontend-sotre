@@ -14,8 +14,8 @@
             </p>
             <div class="list-category__body">
               <div :class="showCategoriesFilter ? 'activo': 'desactivado'">
-                <div v-for="categoria in listCategories" :key="categoria.cat_id" :class="showCategoriesFilter ? 'show-categories': 'disguise-categories'">
-                  <p>
+                <div v-for="categoria in listCategories" :key="categoria.cat_id" class="show-categories">
+                  <p @click="callProductsByCategory(categoria.cat_id)">
                     {{ categoria.cat_name }}
                   </p>
                 </div>
@@ -24,6 +24,9 @@
           </div>
         </div>
         <div class="container__list-product">
+          <div v-show="listProducts.length == 0">
+            No hay productos con ese filtro
+          </div>
           <nuxt-link v-for="producto in listProducts" :key="producto.prod_id" :to="`/productos/${producto.prod_id}`">
             <div class="product">
               <div class="product__body">
@@ -35,13 +38,13 @@
                     {{ producto.prod_name }}
                   </h3>
                 </div>
-                <div class="product">
-                  <div class="product__price">
-                    <div class="product__price__text">
+                <div class="product_section">
+                  <div class="product_section__price">
+                    <div class="product_section__price__text">
                       <span class="regular">Precio Regular</span>
                       <span class="offer">Precio Oferta</span>
                     </div>
-                    <div class="product__price__money">
+                    <div class="product_section__price__money">
                       <span class="regular">S/ {{ producto.prod_price }}</span>
                       <span class="offer">S/ {{ producto.prod_price }}</span>
                     </div>
@@ -64,6 +67,13 @@ export default {
   components: {
     CommonHeader
   },
+  // async asyncData ({ query, store }) {
+  //   const payload = query.category
+  //   if (payload) {
+  //     await store.dispatch('products/loadProductByCategory', payload)
+  //   }
+  //   return {}
+  // },
   data () {
     return {
       pagina: true,
@@ -71,7 +81,7 @@ export default {
     }
   },
   computed: {
-    ...mapState('home', {
+    ...mapState('products', {
       listProducts: 'listProducts'
     }),
     ...mapState('home', {
@@ -82,11 +92,21 @@ export default {
     const payload = this.$route.path === '/'
     this.categoryList = this.$store.dispatch('home/loadCategories', payload)
 
-    this.$store.dispatch('home/loadProducts')
+    const payloadQuery = this.$route.query.category
+
+    if (payloadQuery > 0) {
+      this.$store.dispatch('products/loadProductByCategory', payloadQuery)
+    } else {
+      this.$store.dispatch('products/loadProducts')
+    }
   },
   methods: {
     getSeeCategoeries () {
       this.showCategoriesFilter = !this.showCategoriesFilter
+    },
+    callProductsByCategory (idCategory) {
+      const payload = idCategory
+      this.$store.dispatch('products/loadProductByCategory', payload)
     }
   }
 }

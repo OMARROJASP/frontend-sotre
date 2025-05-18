@@ -42,7 +42,6 @@
 
         &__body {
 
-
           .desactivado {
             overflow: hidden;
             height: 0;
@@ -123,7 +122,7 @@
           }
         }
 
-        .product{
+        .product_section{
            &__price {
             font-size: 15px;
             display: flex;
