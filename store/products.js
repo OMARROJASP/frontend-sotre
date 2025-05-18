@@ -26,10 +26,24 @@ export const actions = {
 
   async loadProductByCategory ({ commit }, payload) {
     try {
-      const response = await this.$axios.$get('product/filtroByCategory', {
-        params: {
-          category: payload
-        }
+      const params = {}
+
+      if (payload.category) {
+        params.category = payload.category
+      }
+
+      if (payload.min != null) {
+        params.min = payload.min
+      }
+
+      if (payload.max != null) {
+        params.max = payload.max
+      }
+
+      console.log('Aqui esta el payload', params)
+
+      const response = await this.$axios.$get('product/filtro', {
+        params
       })
       commit('SET_PRODUCTS_BY_CATEGORY', response.data)
     } catch (e) {

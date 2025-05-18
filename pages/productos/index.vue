@@ -7,7 +7,9 @@
       </h1>
       <div class="container">
         <div class="container__filter">
-          <h5 class="title">Filtros de productos</h5>
+          <h5 class="title">
+            Filtros de productos
+          </h5>
           <div class="list-category">
             <p class="list-category__title" @click="getSeeCategoeries()">
               Todas las categorias
@@ -19,6 +21,59 @@
                     {{ categoria.cat_name }}
                   </p>
                 </div>
+              </div>
+            </div>
+          </div>
+          <div class="filtro_price">
+            <p class="filtro_price__title">
+              Filtrar Por Precio
+            </p>
+            <div class="filtro_price__body">
+              <div class="input-number">
+                <input class="cont-input" type="number" v-model.number="priceRange[0]" :min="min" :max="priceMax" />
+                <input class="cont-input" type="number" v-model.number="priceRange[1]" :min="priceMin" :max="max" />
+              </div>
+              <!-- Slider Vue -->
+              <client-only>
+                <div class="input-range">
+                  <vue-slider
+                    v-model="priceRange"
+                    class="slider"
+                    :min="min"
+                    :max="max"
+                    :dot-size="16"
+                    :height="6"
+                    :interval="10"
+                    :tooltip="'hover'"
+                    :lazy="true"
+                    :enable-cross="false"
+                    :contained="true"
+                    :process-style="{ backgroundColor: '#E53935' }"
+                    :rail-style="{ backgroundColor: '#ccc' }"
+                    :data="null"
+                    :dot-options="[{ style: { backgroundColor: '#E53935' } }, { style: { backgroundColor: '#E53935' } }]"
+                    :direction="'ltr'"
+                    :piecewise="true"
+                    :piecewise-label="true"
+                    :tooltip-style="{ backgroundColor: '#E53935', borderColor: '#E53935' }"
+                    :value="priceRange"
+                    :use-keyboard="true"
+                    :width="'100%'"
+                    :reverse="false"
+                    :disabled="false"
+                    :event-type="'auto'"
+                    :drag-on-click="true"
+                    :real-time="true"
+                    :debounce-time="0"
+                    :max-range="null"
+                    :min-range="10"
+                  />
+                </div>
+              </client-only>
+              <div>
+                <button @click="callFilterProduct">
+                  Filtrar
+                </button>
               </div>
             </div>
           </div>
@@ -67,17 +122,16 @@ export default {
   components: {
     CommonHeader
   },
-  // async asyncData ({ query, store }) {
-  //   const payload = query.category
-  //   if (payload) {
-  //     await store.dispatch('products/loadProductByCategory', payload)
-  //   }
-  //   return {}
-  // },
   data () {
     return {
       pagina: true,
-      showCategoriesFilter: true
+      showCategoriesFilter: true,
+      min: 0,
+      max: 1000,
+      priceMin: 100,
+      priceMax: 800,
+      priceRange: [100, 800],
+      categorySelect: 0
     }
   },
   computed: {
@@ -105,7 +159,27 @@ export default {
       this.showCategoriesFilter = !this.showCategoriesFilter
     },
     callProductsByCategory (idCategory) {
-      const payload = idCategory
+      const payload = {
+        category: idCategory
+      }
+      this.categorySelect = idCategory
+      this.$store.dispatch('products/loadProductByCategory', payload)
+    },
+    callFilterProduct () {
+      let payload = {
+        category: '',
+        min: this.priceRange[0],
+        max: this.priceRange[1]
+      }
+
+      if (this.categorySelect > 0) {
+        payload = {
+          category: this.categorySelect,
+          min: this.priceRange[0],
+          max: this.priceRange[1]
+        }
+      }
+
       this.$store.dispatch('products/loadProductByCategory', payload)
     }
   }
