@@ -30,8 +30,8 @@
             </p>
             <div class="filtro_price__body">
               <div class="input-number">
-                <input class="cont-input" type="number" v-model.number="priceRange[0]" :min="min" :max="priceMax" />
-                <input class="cont-input" type="number" v-model.number="priceRange[1]" :min="priceMin" :max="max" />
+                <input class="cont-input" type="number" v-model.number="priceRange[0]" :min="min" :max="max" />
+                <input class="cont-input" type="number" v-model.number="priceRange[1]" :min="min" :max="max" />
               </div>
               <!-- Slider Vue -->
               <client-only>
@@ -39,8 +39,8 @@
                   <vue-slider
                     v-model="priceRange"
                     class="slider"
-                    :min="min"
-                    :max="max"
+                    :min="priceMin"
+                    :max="priceMax"
                     :dot-size="16"
                     :height="6"
                     :interval="10"
@@ -56,7 +56,6 @@
                     :piecewise="true"
                     :piecewise-label="true"
                     :tooltip-style="{ backgroundColor: '#E53935', borderColor: '#E53935' }"
-                    :value="priceRange"
                     :use-keyboard="true"
                     :width="'100%'"
                     :reverse="false"
@@ -126,32 +125,56 @@ export default {
     return {
       pagina: true,
       showCategoriesFilter: true,
-      min: 0,
-      max: 1000,
-      priceMin: 100,
-      priceMax: 800,
-      priceRange: [100, 800],
-      categorySelect: 0
+      priceRange: [0, 1000],
+      categorySelect: 0,
+      priceMin: 0,
+      priceMax: 1000
     }
   },
   computed: {
     ...mapState('products', {
-      listProducts: 'listProducts'
+      listProducts: 'listProducts',
+      min: 'min',
+      max: 'max'
     }),
     ...mapState('home', {
       listCategories: 'listCategories'
     })
   },
+  watch: {
+    min (val) {
+      if (typeof val === 'number' && typeof this.max === 'number') {
+        this.priceMin = Math.floor(val)
+        this.priceMax = Math.floor(this.max)
+        this.priceRange = [this.priceMin, this.priceMax]
+      }
+    },
+    max (val) {
+      if (typeof val === 'number' && typeof this.min === 'number') {
+        this.priceMin = Math.floor(this.min)
+        this.priceMax = Math.floor(val)
+        this.priceRange = [this.priceMin, this.priceMax]
+      }
+    }
+  },
   created () {
     const payload = this.$route.path === '/'
     this.categoryList = this.$store.dispatch('home/loadCategories', payload)
+    this.categorySelect = this.$route.query.category
 
-    const payloadQuery = this.$route.query.category
+    const payloadQuery = {
+      category: this.$route.query.category
+    }
 
-    if (payloadQuery > 0) {
+    if (payloadQuery.category > 0) {
       this.$store.dispatch('products/loadProductByCategory', payloadQuery)
     } else {
       this.$store.dispatch('products/loadProducts')
+    }
+
+    // Ya puedes asignar priceRange aquí si lo prefieres
+    if (this.min != null && this.max != null) {
+      this.priceRange = [this.min, this.max]
     }
   },
   methods: {
@@ -159,6 +182,7 @@ export default {
       this.showCategoriesFilter = !this.showCategoriesFilter
     },
     callProductsByCategory (idCategory) {
+      this.priceRange = [0, 1000]
       const payload = {
         category: idCategory
       }
@@ -179,8 +203,12 @@ export default {
           max: this.priceRange[1]
         }
       }
-
+      console.log('envio de payload', payload)
       this.$store.dispatch('products/loadProductByCategory', payload)
+
+      this.priceRange = (typeof this.min === 'number' && typeof this.max === 'number')
+        ? [this.min, this.max]
+        : [0, 1000]
     }
   }
 }

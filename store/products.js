@@ -1,6 +1,8 @@
 export const state = () => ({
   product: [],
-  listProducts: []
+  listProducts: [],
+  min: 0,
+  max: 0
 })
 
 export const actions = {
@@ -17,7 +19,8 @@ export const actions = {
   async loadProducts ({ commit }) {
     try {
       const response = await this.$axios.$get('product')
-      commit('SET_LIST_PRODUCTS', response.data)
+      commit('SET_LIST_PRODUCTS', response.data.product)
+      return response.data
     } catch (e) {
       commit('SET_LIST_PRODUCTS', []) // Limpiar el estado en caso de error
       throw e
@@ -40,12 +43,11 @@ export const actions = {
         params.max = payload.max
       }
 
-      console.log('Aqui esta el payload', params)
-
       const response = await this.$axios.$get('product/filtro', {
         params
       })
       commit('SET_PRODUCTS_BY_CATEGORY', response.data)
+      return response.data
     } catch (e) {
       commit('SET_PRODUCTS_BY_CATEGORY', []) // Limpiar el estado en caso de error
       throw e
@@ -58,7 +60,9 @@ export const mutations = {
     state.product = data
   },
   SET_PRODUCTS_BY_CATEGORY (state, data) {
-    state.listProducts = data
+    state.listProducts = data.products
+    state.min = data.priceRange.min
+    state.max = data.priceRange.max
   },
   SET_LIST_PRODUCTS (state, data) {
     state.listProducts = data
