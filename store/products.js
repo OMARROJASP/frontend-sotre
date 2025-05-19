@@ -49,7 +49,7 @@ export const actions = {
       commit('SET_PRODUCTS_BY_CATEGORY', response.data)
       return response.data
     } catch (e) {
-      commit('SET_PRODUCTS_BY_CATEGORY', []) // Limpiar el estado en caso de error
+      commit('SET_CLEAN_FILTRO', [])
       throw e
     }
   }
@@ -63,6 +63,9 @@ export const mutations = {
     state.listProducts = data.products
     state.min = data.priceRange.min
     state.max = data.priceRange.max
+  },
+  SET_CLEAN_FILTRO (state, data) {
+    state.listProducts = data
   },
   SET_LIST_PRODUCTS (state, data) {
     state.listProducts = data

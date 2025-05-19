@@ -37,6 +37,7 @@
               <client-only>
                 <div class="input-range">
                   <vue-slider
+                    v-if="priceRange && priceRange.length === 2"
                     v-model="priceRange"
                     class="slider"
                     :min="priceMin"
@@ -66,6 +67,7 @@
                     :debounce-time="0"
                     :max-range="null"
                     :min-range="10"
+                    :key="`slider-${priceMin}-${priceMax}`"
                   />
                 </div>
               </client-only>
@@ -78,7 +80,7 @@
           </div>
         </div>
         <div class="container__list-product">
-          <div v-show="listProducts.length == 0">
+          <div v-show="listProducts.length === 0">
             No hay productos con ese filtro
           </div>
           <nuxt-link v-for="producto in listProducts" :key="producto.prod_id" :to="`/productos/${producto.prod_id}`">
@@ -128,7 +130,9 @@ export default {
       priceRange: [0, 1000],
       categorySelect: 0,
       priceMin: 0,
-      priceMax: 1000
+      priceMax: 1000,
+      priceMinAux: 0,
+      priceMaxAux: 1000
     }
   },
   computed: {
@@ -141,40 +145,48 @@ export default {
       listCategories: 'listCategories'
     })
   },
-  watch: {
-    min (val) {
-      if (typeof val === 'number' && typeof this.max === 'number') {
-        this.priceMin = Math.floor(val)
-        this.priceMax = Math.floor(this.max)
+  // watch: {
+  //   min (val) {
+  //     if (typeof val === 'number' && typeof this.max === 'number') {
+  //       this.updatePriceRange(val, this.max)
+  //     }
+  //   },
+  //   max (val) {
+  //     if (typeof val === 'number' && typeof this.min === 'number') {
+  //       this.updatePriceRange(this.min, val)
+  //     }
+  //   }
+  // },
+  // async mounted () {
+  //   // Carga los valores iniciales al iniciar la página
+  //   await this.loadInitialPriceRange()
+  // },
+  async created () {
+    try {
+      const payload = this.$route.path === '/'
+      const categories = await this.$store.dispatch('home/loadCategories', payload)
+      this.categoryList = categories
+
+      this.categorySelect = this.$route.query.category || 0
+
+      const payloadQuery = {
+        category: this.categorySelect
+      }
+
+      if (this.categorySelect > 0) {
+        await this.$store.dispatch('products/loadProductByCategory', payloadQuery)
+      } else {
+        await this.$store.dispatch('products/loadProducts')
+      }
+      const { min, max } = this.$store.state.products
+      if (min != null && max != null) {
+        this.priceMin = Math.floor(min)
+        this.priceMax = Math.floor(max)
         this.priceRange = [this.priceMin, this.priceMax]
       }
-    },
-    max (val) {
-      if (typeof val === 'number' && typeof this.min === 'number') {
-        this.priceMin = Math.floor(this.min)
-        this.priceMax = Math.floor(val)
-        this.priceRange = [this.priceMin, this.priceMax]
-      }
-    }
-  },
-  created () {
-    const payload = this.$route.path === '/'
-    this.categoryList = this.$store.dispatch('home/loadCategories', payload)
-    this.categorySelect = this.$route.query.category
-
-    const payloadQuery = {
-      category: this.$route.query.category
-    }
-
-    if (payloadQuery.category > 0) {
-      this.$store.dispatch('products/loadProductByCategory', payloadQuery)
-    } else {
-      this.$store.dispatch('products/loadProducts')
-    }
-
-    // Ya puedes asignar priceRange aquí si lo prefieres
-    if (this.min != null && this.max != null) {
-      this.priceRange = [this.min, this.max]
+    } catch (error) {
+      console.error('Error en created:', error)
+      this.priceRange = [0, 100] // Valores por defecto
     }
   },
   methods: {
@@ -189,7 +201,7 @@ export default {
       this.categorySelect = idCategory
       this.$store.dispatch('products/loadProductByCategory', payload)
     },
-    callFilterProduct () {
+    async callFilterProduct () {
       let payload = {
         category: '',
         min: this.priceRange[0],
@@ -203,12 +215,22 @@ export default {
           max: this.priceRange[1]
         }
       }
-      console.log('envio de payload', payload)
-      this.$store.dispatch('products/loadProductByCategory', payload)
+      try {
+        const response = await this.$store.dispatch('products/loadProductByCategory', payload)
 
-      this.priceRange = (typeof this.min === 'number' && typeof this.max === 'number')
-        ? [this.min, this.max]
-        : [0, 1000]
+        // Actualiza min/max SOLO si el backend los devuelve
+        if (response?.min !== undefined && response?.max !== undefined) {
+          this.priceMin = Math.floor(response.min)
+          this.priceMax = Math.floor(response.max)
+          // Ajusta priceRange para que no exceda los nuevos límites
+          this.priceRange = [
+            Math.max(this.priceMin, this.priceRange[0]), // No menor que el nuevo mínimo
+            Math.min(this.priceMax, this.priceRange[1])// No mayor que el nuevo máximo
+          ]
+        }
+      } catch (error) {
+        console.error('Error al filtrar:', error)
+      }
     }
   }
 }
