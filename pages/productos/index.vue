@@ -113,15 +113,15 @@
           </div>
           <div class="container__list-product__inf">
             <div class="botones">
-              <button :disabled="prevPage" class="btn" @click="callFilterProduct(page - 1)">
+              <button :disabled="page <= 1" class="btn" @click="callFilterProduct(page - 1)">
                 prev
               </button>
               <p class="page">
                 {{ page }}
               </p>
-              <buton :disabled="nextPage" class="btn" @click="callFilterProduct(page + 1)">
+              <button :disabled="page >= totalPages" class="btn" @click="callFilterProduct(page + 1)">
                 next
-              </buton>
+              </button>
             </div>
           </div>
         </div>
@@ -140,16 +140,13 @@ export default {
   },
   data () {
     return {
-      page: 1,
-      limit: 2,
-      //  itemsPerPage: 1,
+      pageProducts: 1,
+      limitProducts: 2,
       showCategoriesFilter: true,
-      priceRange: [0, 1000],
+      priceRange: [0, 500],
       categorySelect: 0,
       priceMin: 0,
-      priceMax: 1000,
-      priceMinAux: 0,
-      priceMaxAux: 1000
+      priceMax: 500
     }
   },
   computed: {
@@ -158,7 +155,8 @@ export default {
       min: 'min',
       max: 'max',
       page: 'page',
-      itemsPerPage: 'itemsPerPage'
+      itemsPerPage: 'itemsPerPage',
+      totalPages: 'totalPages'
     }),
     ...mapState('home', {
       listCategories: 'listCategories'
@@ -174,21 +172,17 @@ export default {
 
       const payloadQuery = {
         category: this.categorySelect,
-        page: this.page,
-        limit: this.limit
+        page: 1,
+        limit: this.limitProducts
       }
 
-      if (this.categorySelect > 0) {
-        await this.$store.dispatch('products/loadProductByCategory', payloadQuery)
-      } else {
-        await this.$store.dispatch('products/loadProducts')
-      }
-      const { min, max } = this.$store.state.products
-      if (min != null && max != null) {
-        this.priceMin = Math.floor(min)
-        this.priceMax = Math.floor(max)
-        this.priceRange = [this.priceMin, this.priceMax]
-      }
+      await this.$store.dispatch('products/loadProductByCategory', payloadQuery)
+      // const { min, max } = this.$store.state.products
+      // if (min != null && max != null) {
+      //   this.priceMin = Math.floor(min)
+      //   this.priceMax = Math.floor(max) + 2
+      //   this.priceRange = [this.priceMin, this.priceMax]
+      // }
     } catch (error) {
       console.error('Error en created:', error)
       this.priceRange = [0, 100] // Valores por defecto
@@ -199,24 +193,22 @@ export default {
       this.showCategoriesFilter = !this.showCategoriesFilter
     },
     callProductsByCategory (idCategory) {
-      this.priceRange = [0, 1000]
       const payload = {
         category: idCategory,
-        page: this.page,
-        limit: this.limit
+        page: this.page || 1,
+        limit: this.limit || this.limitProducts
       }
       this.categorySelect = idCategory
       this.$store.dispatch('products/loadProductByCategory', payload)
     },
     async callFilterProduct (currentPage = 1) {
-      const pageAux = currentPage > 1 ? currentPage : this.page
-
+      const pageAux = currentPage >= 1 ? currentPage : this.page
       let payload = {
         category: '',
         min: this.priceRange[0],
         max: this.priceRange[1],
         page: pageAux,
-        limit: this.limit
+        limit: this.limit || this.limitProducts
       }
 
       if (this.categorySelect > 0) {
@@ -225,7 +217,7 @@ export default {
           min: this.priceRange[0],
           max: this.priceRange[1],
           page: pageAux,
-          limit: this.limit
+          limit: this.limit || this.limitProducts
         }
       }
       try {
@@ -241,15 +233,10 @@ export default {
             Math.min(this.priceMax, this.priceRange[1])// No mayor que el nuevo máximo
           ]
         }
+        this.priceRange = [0, 500]
       } catch (error) {
         console.error('Error al filtrar:', error)
       }
-    },
-    nextPage (data) {
-      return data > 1
-    },
-    prevPage (data) {
-      return data > this.itemsPerPage
     }
   }
 }

@@ -4,7 +4,8 @@ export const state = () => ({
   min: 0,
   max: 0,
   page: 1,
-  itemsPerPage: 1
+  itemsPerPage: 1,
+  totalPages: 1
 })
 
 export const actions = {
@@ -20,11 +21,11 @@ export const actions = {
   },
   async loadProducts ({ commit }) {
     try {
-      const response = await this.$axios.$get('product')
-      commit('SET_LIST_PRODUCTS', response.data.product)
+      const response = await this.$axios.$get('product/filtro')
+      commit('SET_PRODUCTS_BY_CATEGORY', response.data)
       return response.data
     } catch (e) {
-      commit('SET_LIST_PRODUCTS', []) // Limpiar el estado en caso de error
+      commit('SET_CLEAN_FILTRO', []) // Limpiar el estado en caso de error
       throw e
     }
   },
@@ -32,7 +33,7 @@ export const actions = {
   async loadProductByCategory ({ commit }, payload) {
     try {
       const params = {}
-
+      params.category = null
       if (payload.category) {
         params.category = payload.category
       }
@@ -72,6 +73,7 @@ export const mutations = {
     state.max = data.priceRange.max
     state.page = data.pagination.currentPage
     state.itemsPerPage = data.pagination.itemsPerPage
+    state.totalPages = data.pagination.totalPages
   },
   SET_CLEAN_FILTRO (state, data) {
     state.listProducts = data
