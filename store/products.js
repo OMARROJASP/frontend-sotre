@@ -2,7 +2,9 @@ export const state = () => ({
   product: [],
   listProducts: [],
   min: 0,
-  max: 0
+  max: 0,
+  page: 1,
+  itemsPerPage: 1
 })
 
 export const actions = {
@@ -43,6 +45,11 @@ export const actions = {
         params.max = payload.max
       }
 
+      params.page = payload.page
+      params.limit = payload.limit
+
+      console.log('Aqui esta el params', params)
+
       const response = await this.$axios.$get('product/filtro', {
         params
       })
@@ -63,6 +70,8 @@ export const mutations = {
     state.listProducts = data.products
     state.min = data.priceRange.min
     state.max = data.priceRange.max
+    state.page = data.pagination.currentPage
+    state.itemsPerPage = data.pagination.itemsPerPage
   },
   SET_CLEAN_FILTRO (state, data) {
     state.listProducts = data

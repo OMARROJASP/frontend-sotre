@@ -80,35 +80,50 @@
           </div>
         </div>
         <div class="container__list-product">
-          <div v-show="listProducts.length === 0">
-            No hay productos con ese filtro
-          </div>
-          <nuxt-link v-for="producto in listProducts" :key="producto.prod_id" :to="`/productos/${producto.prod_id}`">
-            <div class="product">
-              <div class="product__body">
-                <img :src="producto.prod_imageUrl" alt="Imagen de la producto">
-              </div>
-              <div>
-                <div class="product__title">
-                  <h3>
-                    {{ producto.prod_name }}
-                  </h3>
+          <div class="container__list-product__sup">
+            <div v-show="listProducts.length === 0">
+              No hay productos con ese filtro
+            </div>
+            <nuxt-link v-for="producto in listProducts" :key="producto.prod_id" :to="`/productos/${producto.prod_id}`">
+              <div class="product">
+                <div class="product__body">
+                  <img :src="producto.prod_imageUrl" alt="Imagen de la producto">
                 </div>
-                <div class="product_section">
-                  <div class="product_section__price">
-                    <div class="product_section__price__text">
-                      <span class="regular">Precio Regular</span>
-                      <span class="offer">Precio Oferta</span>
-                    </div>
-                    <div class="product_section__price__money">
-                      <span class="regular">S/ {{ producto.prod_price }}</span>
-                      <span class="offer">S/ {{ producto.prod_price }}</span>
+                <div>
+                  <div class="product__title">
+                    <h3>
+                      {{ producto.prod_name }}
+                    </h3>
+                  </div>
+                  <div class="product_section">
+                    <div class="product_section__price">
+                      <div class="product_section__price__text">
+                        <span class="regular">Precio Regular</span>
+                        <span class="offer">Precio Oferta</span>
+                      </div>
+                      <div class="product_section__price__money">
+                        <span class="regular">S/ {{ producto.prod_price }}</span>
+                        <span class="offer">S/ {{ producto.prod_price }}</span>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
+            </nuxt-link>
+          </div>
+          <div class="container__list-product__inf">
+            <div class="botones">
+              <button :disabled="prevPage" class="btn" @click="callFilterProduct(page - 1)">
+                prev
+              </button>
+              <p class="page">
+                {{ page }}
+              </p>
+              <buton :disabled="nextPage" class="btn" @click="callFilterProduct(page + 1)">
+                next
+              </buton>
             </div>
-          </nuxt-link>
+          </div>
         </div>
       </div>
     </div>
@@ -125,7 +140,9 @@ export default {
   },
   data () {
     return {
-      pagina: true,
+      page: 1,
+      limit: 2,
+      //  itemsPerPage: 1,
       showCategoriesFilter: true,
       priceRange: [0, 1000],
       categorySelect: 0,
@@ -139,28 +156,14 @@ export default {
     ...mapState('products', {
       listProducts: 'listProducts',
       min: 'min',
-      max: 'max'
+      max: 'max',
+      page: 'page',
+      itemsPerPage: 'itemsPerPage'
     }),
     ...mapState('home', {
       listCategories: 'listCategories'
     })
   },
-  // watch: {
-  //   min (val) {
-  //     if (typeof val === 'number' && typeof this.max === 'number') {
-  //       this.updatePriceRange(val, this.max)
-  //     }
-  //   },
-  //   max (val) {
-  //     if (typeof val === 'number' && typeof this.min === 'number') {
-  //       this.updatePriceRange(this.min, val)
-  //     }
-  //   }
-  // },
-  // async mounted () {
-  //   // Carga los valores iniciales al iniciar la página
-  //   await this.loadInitialPriceRange()
-  // },
   async created () {
     try {
       const payload = this.$route.path === '/'
@@ -170,7 +173,9 @@ export default {
       this.categorySelect = this.$route.query.category || 0
 
       const payloadQuery = {
-        category: this.categorySelect
+        category: this.categorySelect,
+        page: this.page,
+        limit: this.limit
       }
 
       if (this.categorySelect > 0) {
@@ -196,23 +201,31 @@ export default {
     callProductsByCategory (idCategory) {
       this.priceRange = [0, 1000]
       const payload = {
-        category: idCategory
+        category: idCategory,
+        page: this.page,
+        limit: this.limit
       }
       this.categorySelect = idCategory
       this.$store.dispatch('products/loadProductByCategory', payload)
     },
-    async callFilterProduct () {
+    async callFilterProduct (currentPage = 1) {
+      const pageAux = currentPage > 1 ? currentPage : this.page
+
       let payload = {
         category: '',
         min: this.priceRange[0],
-        max: this.priceRange[1]
+        max: this.priceRange[1],
+        page: pageAux,
+        limit: this.limit
       }
 
       if (this.categorySelect > 0) {
         payload = {
           category: this.categorySelect,
           min: this.priceRange[0],
-          max: this.priceRange[1]
+          max: this.priceRange[1],
+          page: pageAux,
+          limit: this.limit
         }
       }
       try {
@@ -231,6 +244,12 @@ export default {
       } catch (error) {
         console.error('Error al filtrar:', error)
       }
+    },
+    nextPage (data) {
+      return data > 1
+    },
+    prevPage (data) {
+      return data > this.itemsPerPage
     }
   }
 }
