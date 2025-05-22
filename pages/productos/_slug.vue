@@ -38,7 +38,7 @@
                 </button>
               </div>
               <!-- buy -->
-              <button class="section__buy__button-buy">Comprar</button>
+              <button @click="goBuyProduct" class="section__buy__button-buy">Comprar</button>
             </div>
             <!-- Stock-->
             <div class="section__stock" :class="product.prod_stock > 0?'section__stock__available':'section__stock__no-available'">
@@ -81,6 +81,9 @@ export default {
       } else {
         this.quenty = 1
       }
+    },
+    goBuyProduct () {
+      this.$router.push('/compras')
     }
   }
 }
