@@ -22,8 +22,8 @@
       &__head {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
-      border-bottom: 3px solid gray;
-      border-top: 3px solid gray;
+      border-bottom: 2px solid gray;
+      border-top: 2px solid gray;
       margin: 0px 10px;
       p {
         margin: 2px;
@@ -35,6 +35,12 @@
       .data-product {
         display: grid;
         grid-template-columns: repeat(5, 1fr);
+
+        &__count {
+          display: flex;
+          justify-content: space-around;
+          align-items: center;
+        }
       }
       }
     }
@@ -43,6 +49,41 @@
       border: 1px solid #F2F4F7;
       background: #F2F4F7;
       border-radius: 12px;
+      padding: 0px 2rem;
+
+      &__title {
+        text-align: center;
+      }
+
+      &__sub-total {
+        display: flex;
+        justify-content: space-between;
+      }
+
+      &__total {
+        display: flex;
+        justify-content: space-between;
+      }
+
+      &__buy {
+        display: flex;
+        justify-content: center;
+        margin: 10px;
+
+        button {
+          border-radius: 5px;
+          border: 1px solid red;
+          display: flex;
+          justify-content: center;
+          margin: 5px 0px ;
+          padding: 10px 0px;
+          width: 100%;
+          background: red;
+          color: #fff;
+          font-weight: bold;
+        }
+      }
+
 
     }
   }
