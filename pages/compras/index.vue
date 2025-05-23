@@ -34,24 +34,24 @@
           <!-- Body de la tabla-->
           <div class="list-buy__body">
             <div>
-              <div v-for="(producto, index) in productos" :key="producto.prod_id" class="data-product">
+              <div v-for="(producto, index) in listProductByBuy" :key="producto.product.prod_id" class="data-product">
                 <div>
                   <p>{{ index +1 }}</p>
                 </div>
                 <div>
-                  <p>{{ producto.prod_name }}</p>
+                  <p>{{ producto.product.prod_name }}</p>
                 </div>
                 <div class="data-product__count">
-                  <button @click="getQuentyMinus(index, producto.prod_count)">
+                  <button @click="getQuentyMinus(index, producto.quenty)">
                     <font-awesome-icon :icon="['fas','minus']" size="2xs" style="color: #fff;" />
                   </button>
-                  <p>{{ producto.prod_count }}</p>
-                  <button @click="getQuentyPluss(index, producto.prod_count)">
+                  <p>{{ producto.quenty }}</p>
+                  <button @click="getQuentyPluss(index, producto.product.quenty)">
                     <font-awesome-icon :icon="['fas','plus']" size="2xs" style="color: #fff;" />
                   </button>
                 </div>
                 <div>
-                  <p>s/. {{ producto.prod_subtotal }}</p>
+                  <p>s/. {{ producto.product.prod_price }}</p>
                 </div>
                 <div class="data-product__delete">
                   <p>Eliminar</p>
@@ -101,6 +101,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import CommonHeader from '~/components/common/CommonHeader.vue'
 
 export default {
@@ -151,22 +152,27 @@ export default {
       }
     }
   },
+  computed: {
+    ...mapState('cart', {
+      listProductByBuy: 'listProductByBuy'
+    })
+  },
   created () {
     this.calculationSubtotal()
   },
   methods: {
     getQuentyPluss (data, dataQuenty) {
       if (dataQuenty > 0) {
-        this.productos[data].prod_count++
+        this.$store.commit('UPDATE_PRODUCT_QUENTY', { index: data, quenty: this.listProductByBuy[data].quenty++ })
       }
     },
     getQuentyMinus (data, dataQuenty) {
       if (dataQuenty > 1) {
-        this.productos[data].prod_count--
+        this.$store.commit('UPDATE_PRODUCT_QUENTY', { index: data, quenty: this.listProductByBuy[data].quenty-- })
       }
     },
     calculationSubtotal () {
-      const total = this.productos.reduce((acc, producto) => acc + producto.prod_subtotal, 0)
+      const total = this.listProductByBuy.reduce((acc, producto) => acc + Number(producto.product.prod_price), 0)
       this.subTotal = total.toFixed(2)
     }
   }
