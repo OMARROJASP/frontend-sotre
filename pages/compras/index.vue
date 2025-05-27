@@ -46,7 +46,7 @@
                     <font-awesome-icon :icon="['fas','minus']" size="2xs" style="color: #fff;" />
                   </button>
                   <p>{{ producto.quenty }}</p>
-                  <button @click="getQuentyPluss(index, producto.product.quenty)">
+                  <button @click="getQuentyPluss(index, producto.quenty)">
                     <font-awesome-icon :icon="['fas','plus']" size="2xs" style="color: #fff;" />
                   </button>
                 </div>
@@ -101,7 +101,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapActions, mapState } from 'vuex'
 import CommonHeader from '~/components/common/CommonHeader.vue'
 
 export default {
@@ -109,43 +109,18 @@ export default {
   components: {
     CommonHeader
   },
+  middleware: 'auth',
+  props: {
+    size: {
+      type: String,
+      required: true
+    }
+  },
   data () {
     return {
       countProducts: 0,
       quenty: 1,
       subTotal: 0,
-      productos: [
-        {
-          prod_id: 1,
-          prod_name: 'zapatillas xd Adidas',
-          prod_count: 2,
-          prod_subtotal: 120.0
-        },
-        {
-          prod_id: 2,
-          prod_name: 'zapatillas de nylon Adidas 2',
-          prod_count: 1,
-          prod_subtotal: 30.0
-        },
-        {
-          prod_id: 3,
-          prod_name: 'zapatillas extermas de  Adidas 3',
-          prod_count: 1,
-          prod_subtotal: 29.90
-        },
-        {
-          prod_id: 14,
-          prod_name: ' Adidas 2',
-          prod_count: 1,
-          prod_subtotal: 30.00
-        },
-        {
-          prod_id: 15,
-          prod_name: 'zapatillas Adidas 3',
-          prod_count: 1,
-          prod_subtotal: 29.90
-        }
-      ],
       total: {
         subTotal: 250.00,
         total: 250.00
@@ -161,14 +136,15 @@ export default {
     this.calculationSubtotal()
   },
   methods: {
-    getQuentyPluss (data, dataQuenty) {
-      if (dataQuenty > 0) {
-        this.$store.commit('UPDATE_PRODUCT_QUENTY', { index: data, quenty: this.listProductByBuy[data].quenty++ })
-      }
+    ...mapActions('cart', ['updateProductQuenty']),
+
+    getQuentyPluss (index, dataQuenty) {
+      const currentQyt = this.$store.state.cart.listProductByBuy[index].quenty
+      this.updateProductQuenty({ index, quenty: currentQyt + 1 })
     },
-    getQuentyMinus (data, dataQuenty) {
+    getQuentyMinus (index, dataQuenty) {
       if (dataQuenty > 1) {
-        this.$store.commit('UPDATE_PRODUCT_QUENTY', { index: data, quenty: this.listProductByBuy[data].quenty-- })
+        this.updateProductQuenty({ index, quenty: dataQuenty - 1 })
       }
     },
     calculationSubtotal () {

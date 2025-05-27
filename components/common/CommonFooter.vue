@@ -278,6 +278,12 @@
 <script>
 export default {
   name: 'CommonFooter',
+  props: {
+    size: {
+      type: String,
+      validator: value => ['small', 'medium', 'large'].includes(value)
+    }
+  },
   data () {
     return {
       lugar: 'Lima',

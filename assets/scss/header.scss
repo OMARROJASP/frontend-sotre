@@ -9,6 +9,18 @@
   align-items: center;
   position: relative;
   font-family: 'Roboto', sans-serif;
+
+  &.small {
+    height: 50px;
+  }
+
+  &.medium {
+    height: 80px;
+  }
+
+  &.large {
+    height: 120px;
+  }
   @include mobile(){
     padding: 10px;
   }

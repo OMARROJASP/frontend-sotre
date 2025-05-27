@@ -1,0 +1,119 @@
+@use '../utilities.scss' as *;
+
+#login {
+  .main-login,
+  .header-Login {
+    // solo las diferencias van individualmente
+    &.main-login {
+      background-color: $gray-container;
+      height: calc(100vh - 80px);
+
+      @include mobile() {
+        height: calc(100vh - 100px);
+      }
+    }
+
+    &.header-Login {
+      // Se realizo el cambio de altura para que se acomode cuando se llame usando el componente pop up y header
+      height: auto;
+    }
+
+    .container-login {
+      display: flex;
+      justify-content: center;
+      padding: 2rem;
+
+      &.no-padding {
+        padding: 0;
+      }
+
+      .sections {
+        border: 2px solid gray;
+        border-radius: 12px;
+        background-color: $blanco;
+        padding: 2rem 0px;
+
+        &__title {
+          text-align: center;
+          font-size: 26px;
+          font-weight: 600;
+          color: $rojo-tomate;
+
+          p {
+            margin: 0px;
+            margin-top: 1rem;
+          }
+        }
+
+        &__form {
+          display: flex;
+          flex-direction: column;
+          padding: 2rem;
+          width: 360px;
+          gap: 10px;
+
+          @include mobile() {
+            padding: 1rem;
+          }
+
+          input {
+            padding: 8px 10px;
+            border-radius: 10px;
+            border: 1px solid;
+          }
+
+          button {
+            margin-top: 30px;
+            border: 1px solid;
+            border-radius: 10px;
+            padding: 8px;
+            background: $rojo-tomate;
+            color: $blanco;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+
+            &:hover {
+              background-color: darken($rojo-tomate, 10%);
+            }
+          }
+        }
+
+        &__text {
+          text-align: center;
+          font-size: 12px;
+
+          .password {
+            font-size: 13px;
+          }
+
+          a {
+            color: $rojo-tomate;
+            text-decoration: none;
+            font-weight: bold;
+
+            &:hover {
+              text-decoration: underline;
+            }
+          }
+        }
+
+        &__social {
+          display: flex;
+          justify-content: center;
+          gap: 25px;
+          margin-top: 25px;
+
+          .icon {
+            transition: transform 0.1s ease;
+
+            &:hover {
+              cursor: pointer;
+              transform: scale(0.95);
+            }
+          }
+        }
+      }
+    }
+  }
+}

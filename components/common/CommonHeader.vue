@@ -1,5 +1,5 @@
 <template>
-  <div class="body-header">
+  <div class="body-header" :class="size">
     <div class="container-header-left">
       <nuxt-link class="logo-title" to="/">
         <p class="title-orange">
@@ -62,32 +62,52 @@
       <div class="divisor-login">
         |
       </div>
-      <div class="login-item">
+      <div v-if="!session.token" class="login-item" @click="showPopUp = true">
         Iniciar Sesión
       </div>
+      <div v-else class="login-item">
+        Ver Perfil
+      </div>
     </div>
+
+    <CommonPopUp id="popup-login" :visible="showPopUp" @close="showPopUp = false">
+      <CommonLogin variable="header-login" />
+    </CommonPopUp>
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
+import CommonPopUp from '~/components/common/CommonPopUp.vue'
+import CommonLogin from '~/components/common/CommonLogin.vue'
+
 export default {
   name: 'CommonHeader',
   components: {
+    CommonPopUp,
+    CommonLogin
   },
   props: {
     size: {
       type: String,
-      required: false, // ¿Es requerida?
-      default: 'medium', // ¿Tiene un valor por defecto?
-      validator: value => ['small', 'medium', 'large'].includes(value)
+      default: 'medium',
+      validator: function (value) {
+        const cleanValue = value ? value.trim().toLowerCase() : ''
+        return ['small', 'medium', 'large'].includes(cleanValue)
+      }
     }
   },
   data () {
     return {
-      showMenuMobile: false
+      showMenuMobile: false,
+      showPopUp: false
     }
   },
-
+  computed: {
+    ...mapState('login', {
+      session: 'session'
+    })
+  },
   methods: {
     toggleMenuMobile () {
       this.showMenuMobile = !this.showMenuMobile

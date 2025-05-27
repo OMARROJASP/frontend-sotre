@@ -1,5 +1,3 @@
-// store/index.js
-
 export const state = () => ({
   listProductByBuy: []
 })
@@ -7,10 +5,8 @@ export const state = () => ({
 export const mutations = {
   SET_LIST_PRODUCTS_BUY (state, data) {
     state.listProductByBuy = data
-    console.log('✅ Productos actualizados:', data)
   },
   UPDATE_PRODUCT_QUENTY (state, { index, quenty }) {
-    console.log('Entro aqui', index)
     if (state.listProductByBuy[index]) {
       state.listProductByBuy[index].quenty = quenty
     }
@@ -23,7 +19,7 @@ export const actions = {
     const updatedList = [...state.listProductByBuy, product]
     commit('SET_LIST_PRODUCTS_BUY', updatedList)
   },
-  updateProductQuenty ({ commit }, payload) {
-    commit('UPDATE_PRODUCT_QUENTY', payload)
+  updateProductQuenty ({ commit }, { index, quenty }) {
+    commit('UPDATE_PRODUCT_QUENTY', { index, quenty })
   }
 }

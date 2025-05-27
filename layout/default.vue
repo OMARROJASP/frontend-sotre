@@ -1,22 +1,19 @@
 <template>
   <div>
-    <CommonHeader>
-      <Nuxt />
-    </CommonHeader>
-    <CommonFooter />
+    <Nuxt />
   </div>
 </template>
 
 <script>
-import CommonHeader from '@/components/common/CommonHeader.vue'
-import CommonFooter from '@/components/common/CommonFooter.vue'
+// import CommonHeader from '@/components/common/CommonHeader.vue'
+// import CommonFooter from '@/components/common/CommonFooter.vue'
 
 export default {
   name: 'DefaultPage',
-  components: {
-    CommonHeader,
-    CommonFooter
-  },
+  // components: {
+  //   CommonHeader,
+  //   CommonFooter
+  // },
   data () {
     return {
       lugar: 'Lima'
