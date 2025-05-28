@@ -53,7 +53,7 @@
                 <div>
                   <p>s/. {{ producto.product.prod_price }}</p>
                 </div>
-                <div class="data-product__delete">
+                <div class="data-product__delete" @click="deleteProductByList(producto.product.prod_id)">
                   <p>Eliminar</p>
                 </div>
               </div>
@@ -136,7 +136,7 @@ export default {
     this.calculationSubtotal()
   },
   methods: {
-    ...mapActions('cart', ['updateProductQuenty']),
+    ...mapActions('cart', ['updateProductQuenty', 'deleteProduct']),
 
     getQuentyPluss (index, dataQuenty) {
       const currentQyt = this.$store.state.cart.listProductByBuy[index].quenty
@@ -148,8 +148,11 @@ export default {
       }
     },
     calculationSubtotal () {
-      const total = this.listProductByBuy.reduce((acc, producto) => acc + Number(producto.product.prod_price), 0)
+      const total = this.listProductByBuy.reduce((acc, producto) => acc + Number(producto.product.prod_price * producto.quenty), 0)
       this.subTotal = total.toFixed(2)
+    },
+    deleteProductByList (data) {
+      this.deleteProduct(data)
     }
   }
 }
