@@ -65,7 +65,7 @@
       <div v-if="!session.token" class="login-item" @click="showPopUp = true">
         Iniciar Sesión
       </div>
-      <div v-else class="login-item">
+      <div v-else class="login-item" @click="goPerfil">
         Ver Perfil
       </div>
     </div>
@@ -111,6 +111,9 @@ export default {
   methods: {
     toggleMenuMobile () {
       this.showMenuMobile = !this.showMenuMobile
+    },
+    goPerfil () {
+      this.$router.push('/perfil')
     }
   }
 

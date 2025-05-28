@@ -60,7 +60,7 @@
           </div>
         </div>
         <div class="cont-btn">
-          <button class="btn-cancel">
+          <button class="btn-cancel" @click="goHome">
             Cancelar
           </button>
           <button class="btn-register" type="submit">
@@ -73,6 +73,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 
 export default {
   name: 'CommonRegister',
@@ -92,6 +93,8 @@ export default {
     }
   },
   methods: {
+    ...mapActions('register', ['registerUser']),
+
     registrarUsuario () {
       // Validación adicional si se requiere
       if (
@@ -106,7 +109,27 @@ export default {
       }
 
       console.log('Datos del formulario:', this.form)
-      // this.$axios.post('/api/registro', this.form)
+
+      const payload = {
+        cx_first_name: this.form.nombre,
+        cx_last_name: this.form.apellido,
+        cx_email: this.form.correo,
+        cx_password: this.form.password,
+        cx_phone: this.form.telefono,
+        cx_address: this.form.direccion,
+        cx_city: this.form.ciudad,
+        cx_postal_code: this.form.codigo_postal
+      }
+
+      const result = this.registerUser(payload)
+      if (result) {
+        this.$router.push('/')
+      } else {
+        this.Fauthentification = true
+      }
+    },
+    goHome () {
+      this.$router.push('/')
     }
   }
 }

@@ -3,8 +3,8 @@
     <CommonHeader :size="headerSize" />
     <div>
       <CarrucelHome />
-      <div class="intro">
-        Hola, <span>FULANITO</span>
+      <div v-show="session.token" class="intro">
+        Hola, <span>{{ session.user.first_name }}</span>
         <br>
         Bienvenido a Rukanas Store
       </div>
@@ -103,6 +103,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import CommonHeader from '@/components/common/CommonHeader.vue'
 import CommonFooter from '@/components/common/CommonFooter.vue'
 import CarrucelHome from '@/components/home/Carrucel.vue'
@@ -124,6 +125,11 @@ export default {
     return {
       headerSize: 'medium'
     }
+  },
+  computed: {
+    ...mapState('login', {
+      session: 'session'
+    })
   },
   async mounted () {
     await this.$store.dispatch('nuxtClientInit')
