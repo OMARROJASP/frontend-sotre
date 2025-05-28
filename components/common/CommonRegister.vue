@@ -43,7 +43,14 @@
           </div>
           <div class="cont-info col-4">
             <label for="telefono">Teléfono *</label>
-            <input id="telefono" v-model="form.telefono" placeholder="Ingrese su telefono" type="tel" required>
+            <input
+              id="telefono"
+              v-model="form.telefono"
+              placeholder="Ingrese su telefono"
+              type="number"
+              max="9"
+              required
+            >
           </div>
           <div class="cont-info col-6">
             <label for="direccion">Dirección *</label>
@@ -69,14 +76,28 @@
         </div>
       </form>
     </div>
+    <CommonPopUp id="popup-register" :visible="showPopUp" @close="showPopUp = false">
+      <div class="pop-up">
+        <div class="message">
+          <p>Las Contraseñas No Son Iguales</p>
+        </div>
+        <div class="btn" @click="showPopUp = false">
+          <button>Aceptar</button>
+        </div>
+      </div>
+    </CommonPopUp>
   </div>
 </template>
 
 <script>
 import { mapActions } from 'vuex'
+import CommonPopUp from './CommonPopUp.vue'
 
 export default {
   name: 'CommonRegister',
+  components: {
+    CommonPopUp
+  },
   data () {
     return {
       form: {
@@ -89,7 +110,8 @@ export default {
         direccion: '',
         codigo_postal: ''
       },
-      repitPassword: ''
+      repitPassword: '',
+      showPopUp: false
     }
   },
   methods: {
@@ -105,6 +127,13 @@ export default {
         !this.form.telefono
       ) {
         alert('Por favor, completa todos los campos obligatorios.')
+        return
+      }
+
+      if (
+        this.form.password !== this.repitPassword
+      ) {
+        this.showPopUp = true
         return
       }
 
