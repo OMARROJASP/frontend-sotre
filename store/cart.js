@@ -46,13 +46,14 @@ export const actions = {
     commit('UPDATE_PRODUCT_QUENTY', { index, quenty })
   },
   deleteProduct ({ state, commit }, data) {
-    console.log('datos del arreglo', state.listProductByBuy)
-    console.log('id de la lista', data)
-
     const updatedList = state.listProductByBuy.filter(
       item => item.product.prod_id !== data
     )
-    console.log('ingreso', updatedList)
     commit('DELETE_PRODUCT', updatedList) // ✅ Usa la mutación correcta
+  },
+  async getListProducts ({ commit }, data) {
+    // la data es el id del usuario para obtener sus productos del carrito
+    const response = await this.$axios.get(``)
+    commit('SET_LIST_PRODUCTS_BUY', data)
   }
 }
