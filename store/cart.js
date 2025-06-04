@@ -4,7 +4,7 @@ export const state = () => ({
 
 export const mutations = {
   SET_LIST_PRODUCTS_BUY (state, data) {
-    state.listProductByBuy = data
+    state.listProductByBuy = data.orderDetails
   },
   UPDATE_PRODUCT_QUENTY (state, { index, quenty }) {
     if (state.listProductByBuy[index]) {
@@ -51,9 +51,9 @@ export const actions = {
     )
     commit('DELETE_PRODUCT', updatedList) // ✅ Usa la mutación correcta
   },
-  async getListProducts ({ commit }, data) {
+  async getListProductsByCard ({ commit }, data) {
     // la data es el id del usuario para obtener sus productos del carrito
-    const response = await this.$axios.get(``)
-    commit('SET_LIST_PRODUCTS_BUY', data)
+    const response = await this.$axios.get(`order/${data}/full`)
+    commit('SET_LIST_PRODUCTS_BUY', response)
   }
 }

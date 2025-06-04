@@ -34,26 +34,26 @@
           <!-- Body de la tabla-->
           <div class="list-buy__body">
             <div>
-              <div v-for="(producto, index) in listProductByBuy" :key="producto.product.prod_id" class="data-product">
+              <div v-for="(orderDetalle, index) in listProductByBuy" :key="index" class="data-product">
                 <div>
                   <p>{{ index +1 }}</p>
                 </div>
                 <div>
-                  <p>{{ producto.product.prod_name }}</p>
+                  <p>{{ orderDetalle.ord_det_product.prod_name }}</p>
                 </div>
                 <div class="data-product__count">
-                  <button @click="getQuentyMinus(index, producto.quenty)">
+                  <button @click="getQuentyMinus(index, orderDetalle.ord_det_quantity)">
                     <font-awesome-icon :icon="['fas','minus']" size="2xs" style="color: #fff;" />
                   </button>
-                  <p>{{ producto.quenty }}</p>
-                  <button @click="getQuentyPluss(index, producto.quenty)">
+                  <p>{{ orderDetalle.ord_det_quantity }}</p>
+                  <button @click="getQuentyPluss(index, orderDetalle.ord_det_quantity)">
                     <font-awesome-icon :icon="['fas','plus']" size="2xs" style="color: #fff;" />
                   </button>
                 </div>
                 <div>
-                  <p>s/. {{ producto.product.prod_price }}</p>
+                  <p>s/. {{ orderDetalle.ord_det_unit_price }}</p>
                 </div>
-                <div class="data-product__delete" @click="deleteProductByList(producto.product.prod_id)">
+                <div class="data-product__delete" @click="deleteProductByList(orderDetalle.ord_det_product.product.prod_id)">
                   <p>Eliminar</p>
                 </div>
               </div>
@@ -78,7 +78,7 @@
               Oferta
             </div>
             <div>
-              {{ total.subTotal }}
+              {{ subTotal }}
             </div>
           </div>
           <div class="summary-buy__info">
@@ -109,7 +109,7 @@ export default {
   components: {
     CommonHeader
   },
-  middleware: 'auth',
+  // middleware: 'auth',
   props: {
     size: {
       type: String,
@@ -118,38 +118,49 @@ export default {
   },
   data () {
     return {
-      countProducts: 0,
-      quenty: 1,
-      subTotal: 0,
-      total: {
-        subTotal: 250.00,
-        total: 250.00
-      }
+      subTotal: 0
     }
   },
   computed: {
     ...mapState('cart', {
       listProductByBuy: 'listProductByBuy'
+    }),
+    ...mapState('login', {
+      session: 'session'
     })
   },
-  created () {
+  async created () {
     this.calculationSubtotal()
+    try {
+      console.log('datos de session', this.session)
+      if (this.session?.user?.id_user) {
+      // Obtenemos productos del carrito del usuario logueado
+        await this.$store.dispatch('cart/getListProductsByCard', this.session.user.id_user)
+
+        // Calculamos el subtotal después de haber cargado los productos
+        this.calculationSubtotal()
+      } else {
+        console.warn('No hay usuario en sesión')
+      }
+    } catch (error) {
+      console.error('Error al cargar los productos del carrito:', error)
+    }
   },
   methods: {
-    ...mapActions('cart', ['updateProductQuenty', 'deleteProduct']),
+    ...mapActions('cart', ['updateProductQuenty', 'deleteProduct', 'getListProductsByCard']),
 
     getQuentyPluss (index, dataQuenty) {
-      const currentQyt = this.$store.state.cart.listProductByBuy[index].quenty
-      this.updateProductQuenty({ index, quenty: currentQyt + 1 })
+      // const currentQyt = this.$store.state.cart.listProductByBuy[index].quenty
+      // this.updateProductQuenty({ index, quenty: currentQyt + 1 })
     },
     getQuentyMinus (index, dataQuenty) {
-      if (dataQuenty > 1) {
-        this.updateProductQuenty({ index, quenty: dataQuenty - 1 })
-      }
+      // if (dataQuenty > 1) {
+      //   this.updateProductQuenty({ index, quenty: dataQuenty - 1 })
+      // }
     },
     calculationSubtotal () {
-      const total = this.listProductByBuy.reduce((acc, producto) => acc + Number(producto.product.prod_price * producto.quenty), 0)
-      this.subTotal = total.toFixed(2)
+      // const total = this.listProductByBuy.reduce((acc, producto) => acc + Number(producto.product.prod_price * producto.quenty), 0)
+      // this.subTotal = total.toFixed(2)
     },
     deleteProductByList (data) {
       this.deleteProduct(data)
