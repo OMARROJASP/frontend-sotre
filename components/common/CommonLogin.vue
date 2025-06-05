@@ -111,19 +111,24 @@ export default {
   methods: {
 
     ...mapActions('login', ['singInUser']),
+    ...mapActions(['getPerfil']),
 
-    handlerLogin () {
+    async handlerLogin () {
       const payload = {
         cx_email: this.form.email,
         cx_password: this.form.password
       }
 
-      const result = this.singInUser(payload)
+      try {
+        const result = await this.singInUser(payload)
 
-      if (result) {
-        this.$router.push('/')
-      } else {
+        if (result) {
+          await this.$store.dispatch('getPerfil')
+          this.$router.push('/')
+        }
+      } catch (e) {
         this.Fauthentification = true
+        console.error('Error en login:', e)
       }
     }
   }

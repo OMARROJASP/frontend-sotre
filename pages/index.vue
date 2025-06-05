@@ -132,7 +132,7 @@ export default {
     })
   },
   async mounted () {
-    await this.$store.dispatch('nuxtClientInit')
+    // await this.$store.dispatch('nuxtClientInit')
   }
 
 }

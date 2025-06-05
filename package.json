@@ -17,6 +17,7 @@
     "@fortawesome/free-solid-svg-icons": "^6.7.2",
     "@fortawesome/vue-fontawesome": "^0.1.10",
     "@nuxtjs/axios": "^5.13.6",
+    "cookie-universal-nuxt": "^2.2.2",
     "core-js": "^3.25.3",
     "frontend-ecommerce": "file:",
     "nuxt": "^2.15.8",

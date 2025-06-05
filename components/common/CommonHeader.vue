@@ -62,11 +62,11 @@
       <div class="divisor-login">
         |
       </div>
-      <div v-if="!session.token" class="login-item" @click="showPopUp = true">
-        Iniciar Sesión
-      </div>
-      <div v-else class="login-item" @click="goPerfil">
+      <div v-if="user && user.first_name" class="login-item" @click="goPerfil">
         Ver Perfil
+      </div>
+      <div v-else class="login-item" @click="showPopUp = true">
+        Iniciar Sesión
       </div>
     </div>
 
@@ -77,7 +77,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+// import { mapState } from 'vuex'
 import CommonPopUp from '~/components/common/CommonPopUp.vue'
 import CommonLogin from '~/components/common/CommonLogin.vue'
 
@@ -100,13 +100,22 @@ export default {
   data () {
     return {
       showMenuMobile: false,
-      showPopUp: false
+      showPopUp: false,
+      inSession: {}
     }
   },
   computed: {
-    ...mapState('login', {
-      session: 'session'
-    })
+    user () {
+      return this.$store.state.user
+    }
+  },
+  mounted () {
+    console.log('user in mounted:', this.user)
+    if (!this.session && localStorage.getItem('session')) {
+      const data = JSON.parse(localStorage.getItem('session'))
+      this.inSession = data
+      // this.$store.commit('login/singInUser', data)
+    }
   },
   methods: {
     toggleMenuMobile () {

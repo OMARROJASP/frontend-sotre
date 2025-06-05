@@ -131,20 +131,23 @@ export default {
   },
   async created () {
     this.calculationSubtotal()
-    try {
-      console.log('datos de session', this.session)
-      if (this.session?.user?.id_user) {
-      // Obtenemos productos del carrito del usuario logueado
-        await this.$store.dispatch('cart/getListProductsByCard', this.session.user.id_user)
+    const idUser = 6
+    await this.$store.dispatch('cart/getListProductsByCard', idUser)
 
-        // Calculamos el subtotal después de haber cargado los productos
-        this.calculationSubtotal()
-      } else {
-        console.warn('No hay usuario en sesión')
-      }
-    } catch (error) {
-      console.error('Error al cargar los productos del carrito:', error)
-    }
+    // try {
+    //   if (this.session?.user?.id_user) {
+    //   // Obtenemos productos del carrito del usuario logueado
+    //     const idUser = 6
+    //     await this.$store.dispatch('cart/getListProductsByCard', idUser)
+
+    //     // Calculamos el subtotal después de haber cargado los productos
+    //     // this.calculationSubtotal()
+    //   } else {
+    //     console.warn('No hay usuario en sesión')
+    //   }
+    // } catch (error) {
+    //   console.error('Error al cargar los productos del carrito:', error)
+    // }
   },
   methods: {
     ...mapActions('cart', ['updateProductQuenty', 'deleteProduct', 'getListProductsByCard']),
@@ -159,8 +162,8 @@ export default {
       // }
     },
     calculationSubtotal () {
-      // const total = this.listProductByBuy.reduce((acc, producto) => acc + Number(producto.product.prod_price * producto.quenty), 0)
-      // this.subTotal = total.toFixed(2)
+      const total = this.listProductByBuy.reduce((acc, producto) => acc + Number(producto.ord_det_subtotal), 0)
+      this.subTotal = total.toFixed(2)
     },
     deleteProductByList (data) {
       this.deleteProduct(data)
