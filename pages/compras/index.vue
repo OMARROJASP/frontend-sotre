@@ -129,10 +129,10 @@ export default {
       session: 'session'
     })
   },
-  async created () {
+  created () {
     this.calculationSubtotal()
-    const idUser = 6
-    await this.$store.dispatch('cart/getListProductsByCard', idUser)
+    // const idUser = 6
+    // await this.$store.dispatch('cart/getListProductsByCard', idUser)
 
     // try {
     //   if (this.session?.user?.id_user) {

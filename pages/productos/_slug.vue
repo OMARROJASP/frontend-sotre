@@ -118,8 +118,15 @@ export default {
     },
     goBuyProduct (_product, _quenty) {
       const payload = {
-        product: _product,
-        quenty: _quenty
+        ord_det_discoun: 0,
+        // ord_det_order_id: 2,
+        ord_det_product: _product,
+        ord_det_product_id: this.idProduct,
+        ord_det_quantity: _quenty,
+        ord_det_subtotal: _product.prod_price * _quenty,
+        ord_det_unit_price: _product.prod_price
+        // product: _product,
+        // quenty: _quenty
       }
       this.$store.dispatch('cart/addProduct', payload)
     },

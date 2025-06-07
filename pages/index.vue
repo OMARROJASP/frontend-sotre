@@ -129,10 +129,21 @@ export default {
   computed: {
     ...mapState('login', {
       session: 'session'
-    })
+    }),
+    ...mapState('cart', {
+      listProductByBuy: 'listProductByBuy'
+    }),
+    user () {
+      return this.$store.state.user
+    }
   },
   async mounted () {
     // await this.$store.dispatch('nuxtClientInit')
+  },
+  async created () {
+    if (this.user && this.user.first_name) {
+      await this.$store.dispatch('cart/getListProductsByCard')
+    }
   }
 
 }

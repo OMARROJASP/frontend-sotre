@@ -47,7 +47,6 @@ export const actions = {
   async nuxtServerInit ({ commit }, { $axios }) {
     try {
       const user = await $axios.$get('/customer/perfil')
-      console.log('user desde nuxtServerInit:', user)
       commit('setUser', user)
     } catch (error) {
       console.log('No autenticado o error en el perfil', error)

@@ -41,7 +41,6 @@ export const actions = {
 
 export const mutations = {
   SET_SIGN_IN (state, data) {
-    console.log('data desde mutation SET_SIGN_IN:', data)
     state.name = data.dataUser.first_name
   },
   SET_USER (state, data) {
