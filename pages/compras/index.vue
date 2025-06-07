@@ -53,7 +53,7 @@
                 <div>
                   <p>s/. {{ orderDetalle.ord_det_unit_price }}</p>
                 </div>
-                <div class="data-product__delete" @click="deleteProductByList(orderDetalle.ord_det_product.product.prod_id)">
+                <div class="data-product__delete" @click="deleteProductByList(orderDetalle.ord_det_product_id)">
                   <p>Eliminar</p>
                 </div>
               </div>
@@ -150,16 +150,16 @@ export default {
     // }
   },
   methods: {
-    ...mapActions('cart', ['updateProductQuenty', 'deleteProduct', 'getListProductsByCard']),
+    ...mapActions('cart', ['updateProductQuantity', 'deleteProduct', 'getListProductsByCard']),
 
     getQuentyPluss (index, dataQuenty) {
       // const currentQyt = this.$store.state.cart.listProductByBuy[index].quenty
-      // this.updateProductQuenty({ index, quenty: currentQyt + 1 })
+      this.updateProductQuantity({ index, quantity: dataQuenty + 1 })
     },
     getQuentyMinus (index, dataQuenty) {
-      // if (dataQuenty > 1) {
-      //   this.updateProductQuenty({ index, quenty: dataQuenty - 1 })
-      // }
+      if (dataQuenty > 1) {
+        this.updateProductQuantity({ index, quantity: dataQuenty - 1 })
+      }
     },
     calculationSubtotal () {
       const total = this.listProductByBuy.reduce((acc, producto) => acc + Number(producto.ord_det_subtotal), 0)
