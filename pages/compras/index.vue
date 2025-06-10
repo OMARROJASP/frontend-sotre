@@ -109,7 +109,7 @@ export default {
   components: {
     CommonHeader
   },
-  // middleware: 'auth',
+  middleware: 'auth',
   props: {
     size: {
       type: String,

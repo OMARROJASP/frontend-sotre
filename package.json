@@ -20,6 +20,7 @@
     "cookie-universal-nuxt": "^2.2.2",
     "core-js": "^3.25.3",
     "frontend-ecommerce": "file:",
+    "js-cookie": "^3.0.5",
     "nuxt": "^2.15.8",
     "vue": "^2.7.10",
     "vue-server-renderer": "^2.7.10",

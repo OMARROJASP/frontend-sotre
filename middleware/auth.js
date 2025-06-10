@@ -1,10 +1,7 @@
-export default function ({ redirect }) {
-  if (process.client) {
-    const user = localStorage.getItem('user')
-    const token = localStorage.getItem('token')
-
-    if (!user || !token) {
-      return redirect('/login')
-    }
+export default function ({ store, redirect, route }) {
+  // Si no hay sesión activa, redirige
+  if (!store.state.loggedIn || !store.state.user.first_name) {
+    // Puedes cambiar '/' por '/login' si tuvieras una ruta login
+    return redirect(`/?redirect=${route.fullPath}`)
   }
 }
