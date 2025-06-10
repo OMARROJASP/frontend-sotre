@@ -33,7 +33,7 @@
           </div>
           <!-- Body de la tabla-->
           <div class="list-buy__body">
-            <div>
+            <div v-if="listProductByBuy.length > 0">
               <div v-for="(orderDetalle, index) in listProductByBuy" :key="index" class="data-product">
                 <div>
                   <p>{{ index +1 }}</p>
@@ -57,6 +57,9 @@
                   <p>Eliminar</p>
                 </div>
               </div>
+            </div>
+            <div v-else class="list-buy__body__null">
+              No hay productos en el carrito
             </div>
           </div>
         </div>
@@ -127,10 +130,22 @@ export default {
     }),
     ...mapState('login', {
       session: 'session'
-    })
+    }),
+    user () {
+      return this.$store.state.user
+    }
   },
-  created () {
+  async created () {
     this.calculationSubtotal()
+
+    if (this.user && this.user.first_name) {
+      console.log('se llamo al carrito')
+      await this.$store.dispatch('cart/getListProductsByCard')
+    } else {
+      console.log('No ha iniciado sescion')
+    }
+    console.log('Aqui esta la lista de :', this.listProductByBuy)
+
     // const idUser = 6
     // await this.$store.dispatch('cart/getListProductsByCard', idUser)
 

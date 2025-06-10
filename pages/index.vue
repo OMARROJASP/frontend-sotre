@@ -141,10 +141,6 @@ export default {
     // await this.$store.dispatch('nuxtClientInit')
   },
   async created () {
-    if (this.user && this.user.first_name) {
-      console.log('se llamo al carrito')
-      await this.$store.dispatch('cart/getListProductsByCard')
-    }
   }
 
 }

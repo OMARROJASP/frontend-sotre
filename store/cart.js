@@ -5,17 +5,12 @@ export const state = () => ({
 
 export const mutations = {
   SET_LIST_PRODUCTS_BUY (state, data) {
-    console.log('SET_LIST_PRODUCTS_BUY_data', data)
-    console.log('Aqui esta el id del Order', data.ord_id)
     state.orderId = data.ord_id || null
     state.listProductByBuy = Array.isArray(data.orderDetails) ? data.orderDetails : []
-    console.log('SET_LIST_PRODUCTS_BUY', state.listProductByBuy)
   },
 
   UPDATE_PRODUCT_QUANTITY (state, { index, quantity }) {
     if (state.listProductByBuy[index]) {
-      console.log('El valor del producto: ', state.listProductByBuy[index])
-      console.log('La cantidad del producto: ', quantity)
       state.listProductByBuy[index].ord_det_quantity = quantity
     }
   },
@@ -32,17 +27,20 @@ export const mutations = {
 }
 
 export const actions = {
-  addProduct ({ state, commit }, newProduct) {
+  async addProduct ({ state, commit, dispatch }, newProduct) {
+    await dispatch('getListProductsByCard')
     newProduct.ord_det_order_id = state.orderId
-    console.log('addProduct', state.listProductByBuy)
     const existingIndex = state.listProductByBuy.findIndex(
       item => item.ord_det_product_id === Number(newProduct.ord_det_product_id)
     )
 
     if (existingIndex === -1) {
       const updatedList = [...state.listProductByBuy, newProduct]
+      await this.$axios.$post('details', newProduct)
+      console.log('Ingreso el dato a details')
       commit('SET_LIST_PRODUCTS_BUY', { ord_id: state.orderId, orderDetails: updatedList })
     } else {
+      console.log('No Ingreso el dato a details')
       commit('INCREMENT_PRODUCT_QUANTITY', {
         index: existingIndex,
         quantity: newProduct.ord_det_quantity
@@ -62,8 +60,8 @@ export const actions = {
   },
 
   async getListProductsByCard ({ state, commit }) {
-    if (state.listProductByBuy) {
-      console.log('Ya se han cargado los productos del carrito, no es necesario volver a cargar.')
+    if (state.listProductByBuy.length > 0) {
+      console.log('Ya se han cargado los productos del carrito, no es necesario volver a cargar.', state.listProductByBuy)
       return
     }
     try {
