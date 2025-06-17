@@ -1,11 +1,11 @@
 export const state = () => ({
   listProductByBuy: [],
-  orderId: null
+  order: {}
 })
 
 export const mutations = {
   SET_LIST_PRODUCTS_BUY (state, data) {
-    state.orderId = data.ord_id || null
+    state.order = data || null
     state.listProductByBuy = Array.isArray(data.orderDetails) ? data.orderDetails : []
   },
 
@@ -20,6 +20,10 @@ export const mutations = {
       state.listProductByBuy[index].ord_det_quantity += quantity
     }
   },
+  CLEAN_CART (state) {
+    state.order = {}
+    state.listProductByBuy = []
+  },
 
   DELETE_PRODUCT (state, updatedList) {
     state.listProductByBuy = updatedList
@@ -29,7 +33,7 @@ export const mutations = {
 export const actions = {
   async addProduct ({ state, commit, dispatch }, newProduct) {
     await dispatch('getListProductsByCard')
-    newProduct.ord_det_order_id = state.orderId
+    newProduct.ord_det_order_id = state.order.ord_id
     const existingIndex = state.listProductByBuy.findIndex(
       item => item.ord_det_product_id === Number(newProduct.ord_det_product_id)
     )
@@ -38,7 +42,7 @@ export const actions = {
       const updatedList = [...state.listProductByBuy, newProduct]
       await this.$axios.$post('details', newProduct)
       console.log('Ingreso el dato a details')
-      commit('SET_LIST_PRODUCTS_BUY', { ord_id: state.orderId, orderDetails: updatedList })
+      commit('SET_LIST_PRODUCTS_BUY', { ord_id: state.order.ord_id, orderDetails: updatedList })
     } else {
       console.log('No Ingreso el dato a details')
       commit('INCREMENT_PRODUCT_QUANTITY', {
@@ -73,6 +77,30 @@ export const actions = {
       }
     } catch (error) {
       console.error('Error al obtener productos del carrito:', error)
+    }
+  },
+
+  async buyProductByCard ({ state, commit }) {
+    if (!state.listProductByBuy.length > 0) {
+      console.log('1')
+      return
+    }
+
+    try {
+      const newOrder = {
+        ord_status: 'CREATED'
+      }
+      newOrder.ord_status = 'IN_PROGRESS'
+      const response = await this.$axios.$put(`order/${state.order.ord_id}`, newOrder)
+      if (response?.data) {
+        commit('CLEAN_CART')
+        return true
+      } else {
+        alert('Hubo problemas con la compra')
+        return false
+      }
+    } catch (error) {
+      console.error('Error al comprar el carrito de compra')
     }
   }
 }

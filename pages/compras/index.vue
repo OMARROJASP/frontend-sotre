@@ -93,7 +93,7 @@
             </div>
           </div>
           <div class="summary-buy__buy">
-            <button>
+            <button @click="buyProducts()">
               Pagar
             </button>
           </div>
@@ -165,7 +165,7 @@ export default {
     // }
   },
   methods: {
-    ...mapActions('cart', ['updateProductQuantity', 'deleteProduct', 'getListProductsByCard']),
+    ...mapActions('cart', ['updateProductQuantity', 'deleteProduct', 'getListProductsByCard', 'buyProductByCard']),
 
     getQuentyPluss (index, dataQuenty) {
       // const currentQyt = this.$store.state.cart.listProductByBuy[index].quenty
@@ -182,6 +182,12 @@ export default {
     },
     deleteProductByList (data) {
       this.deleteProduct(data)
+    },
+    buyProducts () {
+      const valor = this.buyProductByCard()
+      if (valor) {
+        this.$router.push('/')
+      }
     }
   }
 }
