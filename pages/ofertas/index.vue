@@ -170,14 +170,15 @@ export default {
 
       this.categorySelect = this.$route.query.category || 0
 
-      // const payloadQuery = {
-      //   category: this.categorySelect,
-      //   page: 1,
-      //   limit: this.limitProducts
-      // }
+      const payloadQuery = {
+        category: this.categorySelect,
+        ofert: true,
+        page: 1,
+        limit: this.limitProducts
+      }
 
       // await this.$store.dispatch('products/loadProductsByOfert', payloadQuery)
-      await this.$store.dispatch('products/loadProductsByOfert')
+      await this.$store.dispatch('products/loadProductByCategory', payloadQuery)
       // const { min, max } = this.$store.state.products
       // if (min != null && max != null) {
       //   this.priceMin = Math.floor(min)
@@ -196,6 +197,7 @@ export default {
     callProductsByCategory (idCategory) {
       const payload = {
         category: idCategory,
+        ofert: true,
         page: this.page || 1,
         limit: this.limit || this.limitProducts
       }
@@ -206,6 +208,7 @@ export default {
       const pageAux = currentPage >= 1 ? currentPage : this.page
       let payload = {
         category: '',
+        ofert: true,
         min: this.priceRange[0],
         max: this.priceRange[1],
         page: pageAux,
@@ -215,6 +218,7 @@ export default {
       if (this.categorySelect > 0) {
         payload = {
           category: this.categorySelect,
+          ofert: true,
           min: this.priceRange[0],
           max: this.priceRange[1],
           page: pageAux,

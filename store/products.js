@@ -48,6 +48,10 @@ export const actions = {
         params.category = payload.category
       }
 
+      if (payload.ofert) {
+        params.ofert = payload.ofert // Si se envia de ofert le envia true
+      }
+
       if (payload.min != null) {
         params.min = payload.min
       }
