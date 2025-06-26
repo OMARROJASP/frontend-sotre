@@ -29,6 +29,16 @@ export const actions = {
       throw e
     }
   },
+  async loadProductsByOfert ({ commit }) {
+    try {
+      const response = await this.$axios.$get('product/all')
+      commit('SET_PRODUCTS_BY_CATEGORY', response.data)
+      return response.data
+    } catch (e) {
+      commit('SET_CLEAN_FILTRO', []) // Limpiar el estado en caso de error
+      throw e
+    }
+  },
 
   async loadProductByCategory ({ commit }, payload) {
     try {
