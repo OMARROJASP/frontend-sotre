@@ -1,6 +1,7 @@
 export const state = () => ({
   listCategories: [],
-  listProducts: []
+  listProducts: [],
+  banners: []
 })
 
 export const actions = {
@@ -25,14 +26,34 @@ export const actions = {
       commit('setListCategories', []) // Limpiar el estado en caso de error
       throw e
     }
+  },
+
+  async loadBanners ({ commit }) {
+    try {
+      const response = await this.$axios.$get('banner')
+      console.log(response.data)
+      if (!response.data || response.data.length === 0) {
+        console.warn('No hay banners disponibles')
+        return []
+      }
+      commit('setListBanners', response.data)
+    } catch (error) {
+      console.error('Error fetching banners:', error)
+      commit('setListBanners', []) // Limpiar el estado en caso de error
+      throw error
+    }
   }
 
 }
+
 export const mutations = {
   setListCategories (state, data) {
     state.listCategories = data
   },
   setListProducts (state, products) {
     state.listProducts = products
+  },
+  setListBanners (state, banners) {
+    state.banners = banners
   }
 }
