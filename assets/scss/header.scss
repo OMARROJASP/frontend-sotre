@@ -30,14 +30,17 @@
       display: flex;
       font-size: 20px;
       font-weight: 600;
+      text-decoration: none;
       @include mobile(){
         display: none;
       }
       .title-orange{
         color: #F5A61A;
+        margin-bottom: 0px;
       }
       .title-white{
         color: white;
+        margin-bottom: 0px;
       }
     }
     .header-menu{
@@ -68,11 +71,12 @@
     }
     .header-menu-mobile-desplazable{
       position: absolute;
-      top: 38px;
+      top: 60px;
       background: white;
       left: 0px;
       width: 50%;
       font-weight: bold;
+      z-index: 999;
       .container-menu-item{
         list-style: none;
         padding-left: 10px;

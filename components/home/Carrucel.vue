@@ -1,5 +1,5 @@
 <template>
-  <div class="banner">
+  <div>
     <!-- <div class="banner__slider" :style="{ transform: `translateX(-${currentIndex * 100}%)` }">
       <div v-for="(image, index) in images" :key="index" :class="['banner__slide', { active: currentIndex === index }]">
         <nuxt-link to="/productos">
@@ -9,19 +9,34 @@
     </div> -->
     <div>
       <b-carousel
-        id="carusel-1"
         v-model="slide"
-        :interval="2000"
+        :interval="4000"
         controls
-        indicators
         background="#ababab"
-        img-width="1024"
-        img-height="480"
         style="text-shadow: 1px 1px 2px #333;"
         @sliding-start="onSlideStart"
         @sliding-end="onSlideEnd"
       >
-        <b-carousel-slide v-for="banner in banners" :key="banner.bnn_id" :class="{ 'activo': isActive, 'inactivo': !isActive }" :img-src="banner.bnn_image_url_desktop"></b-carousel-slide>
+        <div v-for="(banner) in banners" :key="banner.bnn_id">
+          <b-carousel-slide>
+            <template #img>
+              <template>
+                <img
+                  class="d-none d-md-block"
+                  width="100%"
+                  :src="banner.bnn_image_url_desktop"
+                  alt="imagen de desktop"
+                >
+                <img
+                  class="d-block d-md-none"
+                  width="100%"
+                  :src="banner.bnn_image_url_mobile"
+                  alt=""
+                >
+              </template>
+            </template>
+          </b-carousel-slide>
+        </div>
       </b-carousel>
     </div>
   </div>
@@ -33,18 +48,11 @@ export default {
   name: 'CarrucelHome',
   data () {
     return {
-      images: [
-        'https://i.pinimg.com/736x/86/f4/63/86f463995f71aa9c87dd934ca927ef24.jpg',
-        'https://i.pinimg.com/736x/fe/59/97/fe5997fd5db229a56013ebaab404f5fd.jpg'
-      ],
       currentIndex: 0,
       interval: null,
       slide: 0,
       sliding: null
     }
-  },
-  fetch () {
-    this.$store.dispatch('home/loadBanners')
   },
   computed: {
     currentImage () {
@@ -53,6 +61,9 @@ export default {
     ...mapState('home', {
       banners: 'banners'
     })
+  },
+  created () {
+    this.$store.dispatch('home/loadBanners')
   },
   mounted () {
     this.startCarousel()
