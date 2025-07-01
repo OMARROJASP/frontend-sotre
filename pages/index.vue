@@ -13,8 +13,11 @@
         <CategoriaHome titulo="Categoria" />
       </div>
       <div>
-        <CarrucelOferta titulo="Oferta" />
+        <CardsHorizontal />
       </div>
+      <!-- <div>
+        <CarrucelOferta titulo="Oferta" />
+      </div> -->
     </div>
     <!-- <CommonPopUp id="popup-product" :visible="showPopUp" @close="showPopUp = false">
       <main id="login">
@@ -107,8 +110,8 @@ import { mapState } from 'vuex'
 import CommonHeader from '@/components/common/CommonHeader.vue'
 import CommonFooter from '@/components/common/CommonFooter.vue'
 import CarrucelHome from '@/components/home/Carrucel.vue'
-import CarrucelOferta from '@/components/common/CommonCarrucelv2.vue'
 import CategoriaHome from '@/components/home/Categoria.vue'
+import CardsHorizontal from '@/components/home/CardsHorizontal.vue'
 // import CommonPopUp from '~/components/common/CommonPopUp.vue'
 
 export default {
@@ -117,8 +120,8 @@ export default {
     CommonHeader,
     CommonFooter,
     CarrucelHome,
-    CarrucelOferta,
-    CategoriaHome
+    CategoriaHome,
+    CardsHorizontal
     // CommonPopUp
   },
   data () {

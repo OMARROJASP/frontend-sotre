@@ -33,22 +33,22 @@
         <div v-if="showMenuMobile" class="header-menu-mobile-desplazable">
           <div>
             <ul class="container-menu-item">
-              <li>
+              <li class="section-link">
                 <nuxt-link to="/productos" class="menu-item">
                   Productos
                 </nuxt-link>
               </li>
-              <li>
+              <li class="section-link">
                 <nuxt-link to="/ofertas" class="menu-item">
                   Ofertas
                 </nuxt-link>
               </li>
-              <li>
+              <li class="section-link">
                 <nuxt-link to="/nosotros" class="menu-item">
                   Nosotros
                 </nuxt-link>
               </li>
-              <li>
+              <li class="section-link">
                 <nuxt-link to="/contactos" class="menu-item">
                   Contacto
                 </nuxt-link>

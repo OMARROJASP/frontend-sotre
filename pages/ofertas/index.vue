@@ -141,7 +141,7 @@ export default {
   data () {
     return {
       pageProducts: 1,
-      limitProducts: 2,
+      limitProducts: 6,
       showCategoriesFilter: true,
       priceRange: [0, 500],
       categorySelect: 0,

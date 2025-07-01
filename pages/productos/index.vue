@@ -99,11 +99,11 @@
                     <div class="product_section__price">
                       <div class="product_section__price__text">
                         <span class="regular">Precio Regular</span>
-                        <span class="offer">Precio Oferta</span>
+                        <span v-if="producto.prod_ofert > 0" class="offer">Precio Oferta</span>
                       </div>
                       <div class="product_section__price__money">
                         <span class="regular">S/ {{ producto.prod_price }}</span>
-                        <span class="offer">S/ {{ producto.prod_price }}</span>
+                        <span v-if="producto.prod_ofert > 0" class="offer">S/ {{  producto.prod_price - producto.prod_price*(producto.prod_ofert/100)  }}</span>
                       </div>
                     </div>
                   </div>
@@ -141,7 +141,7 @@ export default {
   data () {
     return {
       pageProducts: 1,
-      limitProducts: 2,
+      limitProducts: 6,
       showCategoriesFilter: true,
       priceRange: [0, 500],
       categorySelect: 0,

@@ -32,7 +32,7 @@ export const actions = {
   async loadProductsByOfert ({ commit }) {
     try {
       const response = await this.$axios.$get('product/all')
-      commit('SET_PRODUCTS_BY_CATEGORY', response.data)
+      commit('SET_DETALLE_LIST_PRODUCT', response.data)
       return response.data
     } catch (e) {
       commit('SET_CLEAN_FILTRO', []) // Limpiar el estado en caso de error
@@ -80,6 +80,9 @@ export const actions = {
 export const mutations = {
   SET_DETALLE_PRODUCT (state, data) {
     state.product = data
+  },
+  SET_DETALLE_LIST_PRODUCT (state, data) {
+    state.listProducts = data
   },
   SET_PRODUCTS_BY_CATEGORY (state, data) {
     state.listProducts = data.products

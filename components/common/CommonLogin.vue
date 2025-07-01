@@ -28,6 +28,7 @@
             <button type="submit">
               Iniciar Sesión
             </button>
+            <h2 v-show="Fauthentification" style="color: red; text-align: center; font-size: 14px;">Intente otra vez</h2>
           </form>
           <div class="sections__text">
             <p class="password">
@@ -77,7 +78,6 @@
             </div>
           </div>
         </div>
-        <h2 v-show="Fauthentification">Intente otra vez</h2>
       </div>
     </main>
   </div>
