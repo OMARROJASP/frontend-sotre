@@ -125,6 +125,7 @@ export default {
         if (result) {
           await this.$store.dispatch('getPerfil')
           this.$router.push('/')
+          alert('Ingreso exitoso')
         }
       } catch (e) {
         this.Fauthentification = true

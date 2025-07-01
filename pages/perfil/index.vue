@@ -10,7 +10,7 @@ import { mapActions } from 'vuex'
 export default {
   name: 'Perfil',
   methods: {
-    ...mapActions('login', ['logout']),
+    ...mapActions('index', ['logout']),
 
     logOut () {
       this.logout()

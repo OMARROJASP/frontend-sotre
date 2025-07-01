@@ -22,9 +22,9 @@
       flex-direction: column;
 
       .cont-data {
-      display: grid;
-      grid-template-columns: repeat(12, 1fr);
-      gap: 1rem;
+      // display: grid;
+      // grid-template-columns: repeat(12, 1fr);
+      // gap: 1rem;
 
       .col-3 {
         grid-column: span 3;
@@ -58,8 +58,9 @@
       }
 
       .cont-info{
-        display: flex;
-        flex-direction: column;
+            display: flex;
+      flex-direction: column;
+      margin-bottom: 1rem;
       }
 
       label {
@@ -70,12 +71,14 @@
         padding: 10px 10px;
         border-radius: 10px;
         border: 1px solid;
+        font-size: 14px;
       }
       }
       .cont-btn {
         display: flex;
         justify-content: flex-end;
         gap: 15px;
+        margin-top: 30px;
 
         .btn-cancel {
           background-color: $blanco;

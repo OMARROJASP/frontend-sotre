@@ -9,6 +9,9 @@ $duracion: 0.4s;
   align-items: center;
   position: relative;
   font-family: 'Roboto', sans-serif;
+   @include desktop(){
+        margin: 0px;
+      }
 
   &.small {
     height: 50px;

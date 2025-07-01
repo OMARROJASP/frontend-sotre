@@ -60,5 +60,15 @@ export const actions = {
     } catch (error) {
       commit('setUser', null)
     }
+  },
+  logout ({ commit }) {
+    // Limpia el estado del usuario
+    commit('setUser', null)
+    console.log('Usuario desconectado')
+
+    // Limpia la cookie (solo en el cliente)
+    if (process.client) {
+      document.cookie = 'auth_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;'
+    }
   }
 }
