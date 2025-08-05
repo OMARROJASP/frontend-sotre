@@ -27,13 +27,21 @@
  }
 
  .intro{
-  font-size: 15px;
-  font-weight: 500;
+  font-size: 20px;
   margin-left: 30px;
+  padding: 40px 10px 30px 10px;
   span{
     color: red;
     font-weight: 600;
+    font-weight: 500;
+    text-decoration: underline;
   }
+
+   @include mobile(){
+    padding: 20px 10px 10px 10px;
+    font-size: 17px;
+    margin-left: 0px;
+   }
  }
  .division{
   border: 1px solid red;
@@ -41,6 +49,11 @@
 
  .section{
   &__categories{
+
+    background-color: #ece7e7;
+    padding: 0px 10px;
+    border-radius: 10px;
+
     .title{
       font-size: 20px;
       font-weight: 600;

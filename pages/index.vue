@@ -3,17 +3,20 @@
     <CommonHeader :size="headerSize" />
     <div>
       <CarrucelHome />
-      <div v-show="session.token" class="intro">
-        Hola, <span>{{ session.user.first_name }}</span>
-        <br>
-        Bienvenido a Rukanas Store
-      </div>
-      <hr class="division">
-      <div>
-        <CategoriaHome titulo="Categoria" />
-      </div>
-      <div>
-        <CardsHorizontal />
+      <!-- Aqui inicia el espaciado de la pagina principal-->
+      <div class="container">
+        <div v-show="user" class="intro">
+          Hola, <span>{{ user.first_name }} {{ user.last_name }}</span>
+          <br>
+          Bienvenido a Rukanas Store
+        </div>
+        <hr class="division">
+        <div class="espaciado">
+          <CategoriaHome titulo="Categoria" />
+        </div>
+        <div class="espaciado">
+          <CardsHorizontal />
+        </div>
       </div>
       <!-- <div>
         <CarrucelOferta titulo="Oferta" />
@@ -150,5 +153,7 @@ export default {
 
 </script>
 <style>
-
+.espaciado {
+  margin: 30px 0;
+}
 </style>

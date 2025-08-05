@@ -33,7 +33,8 @@ export default {
   plugins: [
     '@/plugins/fontawesome.js',
     { src: '~/plugins/vue-slider.js', mode: 'client' },
-    '@/plugins/test.js'
+    '@/plugins/test.js',
+    { src: '~/plugins/owl.client.js', mode: 'client', ssr: false }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

@@ -29,14 +29,67 @@
         </div>
       </div>
     </div>
+   <section>
+  <h2 class="mb-4">Ofertas2</h2>
+  <client-only>
+    <carousel
+      :rewind="false"
+      :items="3"
+      :margin="20"
+      :nav="false"
+      :dots="false"
+      :responsive="{
+        0: { items: 1, nav: false, stagePadding: 50 },
+        768: { items: 2, nav: false },
+        992: { items: 3, nav: false }
+      }"
+    >
+      <nuxt-link
+        v-for="(item, index) in listProducts"
+        :key="index"
+        :to="'/producto/' + item.prod_alias"
+        class="product-card flex-shrink-0"
+      >
+        <div class="d-flex h-100">
+          <div class="w-50">
+            <img
+              :src="item.prod_imageUrl"
+              alt="imagen"
+              class="img-fluid h-80 w-80 object-fit-cover"
+            />
+          </div>
+          <div class="w-50 p-3 campo-text">
+            <div class="top">
+              <h5 class="mb-2" style="font-size: 12px;">
+                {{ item.prod_name }}
+              </h5>
+              <strong>
+                ${{ item.prod_price - item.prod_price * (item.prod_ofert / 100) }}
+              </strong>
+            </div>
+            <div class="bottom">
+              <b-button variant="success" style="font-size: 12px;">Detalles</b-button>
+            </div>
+          </div>
+        </div>
+      </nuxt-link>
+    </carousel>
+  </client-only>
+</section>
+
   </b-container>
 </template>
 
 <script>
 import { mapState } from 'vuex'
+const carousel = () =>
+  typeof window !== 'undefined' ? import('v-owl-carousel') : null
 
 export default {
   name: 'CardsHorizontal',
+  components: {
+    carousel
+  },
   computed: {
     ...mapState('products', ['listProducts']),
     ...mapState('home', ['listCategories'])

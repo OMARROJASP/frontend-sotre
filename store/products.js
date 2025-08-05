@@ -63,8 +63,6 @@ export const actions = {
       params.page = payload.page
       params.limit = payload.limit
 
-      console.log('Aqui esta el params', params)
-
       const response = await this.$axios.$get('product/filtro', {
         params
       })

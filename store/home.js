@@ -31,7 +31,7 @@ export const actions = {
   async loadBanners ({ commit }) {
     try {
       const response = await this.$axios.$get('banner')
-      console.log(response.data)
+
       if (!response.data || response.data.length === 0) {
         console.warn('No hay banners disponibles')
         return []

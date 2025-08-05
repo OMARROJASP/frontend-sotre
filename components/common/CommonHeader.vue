@@ -10,9 +10,9 @@
         </p>
       </nuxt-link>
       <div class="header-menu">
-        <nuxt-link to="/" class="menu-item">
+        <!-- <nuxt-link to="/" class="menu-item">
           Inicio
-        </nuxt-link>
+        </nuxt-link> -->
         <nuxt-link to="/productos" class="menu-item">
           Productos
         </nuxt-link>
