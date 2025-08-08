@@ -1,8 +1,8 @@
 <template>
-  <b-container fluid>
-    <h1 class="mb-4">Ofertas</h1>
+  <div>
+    <!-- <h1 class="mb-4">Ofertas</h1> -->
 
-    <div class="card-slider d-flex overflow-auto">
+    <!-- <div class="card-slider d-flex overflow-auto">
       <div
         class="product-card flex-shrink-0"
         v-for="(item, index) in listProducts"
@@ -19,7 +19,7 @@
           <div class="w-50 p-3 campo-text">
             <div class="top">
               <h5 class="mb-2" style="font-size: 12px;">{{ item.prod_name }}</h5>
-              <!-- <p class="mb-1 text-muted">{{ item.prod_description }}</p> -->
+              <p class="mb-1 text-muted">{{ item.prod_description }}</p>
               <strong>${{ item.prod_price - item.prod_price*(item.prod_ofert/100) }}</strong>
             </div>
             <div class="bottom">
@@ -28,9 +28,9 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
    <section>
-  <h2 class="mb-4">Ofertas2</h2>
+  <h2 class="mb-4">Ofertas</h2>
   <client-only>
     <carousel
       :rewind="false"
@@ -47,7 +47,7 @@
       <nuxt-link
         v-for="(item, index) in listProducts"
         :key="index"
-        :to="'/producto/' + item.prod_alias"
+        :to="'/productos/' + item.prod_id"
         class="product-card flex-shrink-0"
       >
         <div class="d-flex h-100">
@@ -77,7 +77,7 @@
   </client-only>
 </section>
 
-  </b-container>
+  </div>
 </template>
 
 <script>
