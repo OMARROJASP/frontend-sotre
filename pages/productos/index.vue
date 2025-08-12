@@ -2,7 +2,7 @@
   <div>
     <CommonHeader />
     <div id="page-products">
-      <h1 class="title-principal">
+      <h1 class="title-principal ">
         Lista de Productos
       </h1>
       <div class="container">
@@ -71,8 +71,8 @@
                   />
                 </div>
               </client-only>
-              <div>
-                <button @click="callFilterProduct">
+              <div class="btn-filter">
+                <button class="btn" @click="callFilterProduct">
                   Filtrar
                 </button>
               </div>
@@ -91,9 +91,7 @@
                 </div>
                 <div>
                   <div class="product__title">
-                    <h3>
-                      {{ producto.prod_name }}
-                    </h3>
+                    {{ calcBNumberString(producto.prod_name) }}
                   </div>
                   <div class="product_section">
                     <div class="product_section__price">
@@ -103,7 +101,7 @@
                       </div>
                       <div class="product_section__price__money">
                         <span class="regular">S/ {{ producto.prod_price }}</span>
-                        <span v-if="producto.prod_ofert > 0" class="offer">S/ {{  producto.prod_price - producto.prod_price*(producto.prod_ofert/100)  }}</span>
+                        <span v-if="producto.prod_ofert > 0" class="offer">S/ {{ producto.prod_price - producto.prod_price*(producto.prod_ofert/100) }}</span>
                       </div>
                     </div>
                   </div>
@@ -189,6 +187,14 @@ export default {
     }
   },
   methods: {
+    calcBNumberString (cadena) {
+      if (cadena.length > 25) {
+        return cadena.slice(0, 25) + '...'
+      } else {
+        return cadena
+      }
+    },
+
     getSeeCategoeries () {
       this.showCategoriesFilter = !this.showCategoriesFilter
     },

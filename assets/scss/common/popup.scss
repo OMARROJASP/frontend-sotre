@@ -1,3 +1,4 @@
+@use '../utilities.scss' as *;
 .popup-overlay {
   position: fixed;
   top: 0;
@@ -10,12 +11,18 @@
   align-items: center;
   z-index: 9999;
 
+
   .popup-content {
     background: #fff;
     padding: 2rem;
     border-radius: 10px;
     position: relative;
     min-width: 300px;
+
+    @include mobile() {
+      width:300px;
+    }
+
 
     .close {
       position: absolute;

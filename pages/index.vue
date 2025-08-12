@@ -5,7 +5,7 @@
       <CarrucelHome />
       <!-- Aqui inicia el espaciado de la pagina principal-->
       <div class="container">
-        <div v-show="user" class="intro">
+        <div v-show="user && user.first_name" class="intro">
           Hola, <span>{{ user.first_name }} {{ user.last_name }}</span>
           <br>
           Bienvenido a Rukanas Store

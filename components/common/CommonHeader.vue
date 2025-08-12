@@ -34,6 +34,11 @@
           <div>
             <ul class="container-menu-item">
               <li class="section-link">
+                <nuxt-link to="/" class="menu-item">
+                  Inicio
+                </nuxt-link>
+              </li>
+              <li class="section-link">
                 <nuxt-link to="/productos" class="menu-item">
                   Productos
                 </nuxt-link>

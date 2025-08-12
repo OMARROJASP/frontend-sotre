@@ -48,6 +48,13 @@
             </div>
           </div>
         </div>
+        <div class="content__description">
+          <h3 class="title-principal">Descripción</h3>
+          <p class="description">
+            {{ product.prod_description }}
+          </p>
+
+        </div>
       </div>
     </div>
     <CommonPopUp id="popup-product" :visible="showPopUp" @close="showPopUp = false">
@@ -65,8 +72,8 @@
             </div>
           </div>
           <div>
-            <h3>{{ product.prod_name }}</h3>
-            <h5>{{ product.prod_price }}</h5>
+            <h3 class="name_product">{{ product.prod_name }}</h3>
+            <h5 class="price_product"> s/. {{ product.prod_price }}</h5>
           </div>
         </div>
         <div class="content-btn">
