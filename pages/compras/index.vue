@@ -5,7 +5,92 @@
       <p class="title-principal">
         Mi Carritito (2)
       </p>
-      <div class="container">
+      <div v-if="$device.isMobile()" class="container-mobile">
+        <div class="list-buy">
+          <div class="list-buy__title">
+            <p>
+              Rukanas Store
+            </p>
+          </div>
+          <div class="list-buy__body">
+            <div v-if="listProductByBuy.length > 0">
+              <div v-for="(orderDetalle, index) in listProductByBuy" :key="index" class="data-product">
+                <div class="image-product">
+                  <img :src="orderDetalle.ord_det_product.prod_imageUrl" alt="Imagen del producto">
+                </div>
+                <div class="info-product">
+                  <div class="name-product">
+                    {{ orderDetalle.ord_det_product.prod_name }}
+                  </div>
+                  <div class="container-price-quenty">
+                    <div class="count">
+                      <button @click="getQuentyMinus(index, orderDetalle.ord_det_quantity)">
+                        <font-awesome-icon :icon="['fas','minus']" size="2xs" style="color: #fff;" />
+                      </button>
+                      <p style="margin: 0px;">
+                        {{ orderDetalle.ord_det_quantity }}
+                      </p>
+                      <button @click="getQuentyPluss(index, orderDetalle.ord_det_quantity)">
+                        <font-awesome-icon :icon="['fas','plus']" size="2xs" style="color: #fff;" />
+                      </button>
+                    </div>
+                    <div>
+                      <p style="margin: 0px;">
+                        s/. {{ orderDetalle.ord_det_unit_price }}
+                      </p>
+                    </div>
+                    <div >
+                      <font-awesome-icon :icon="['fas','trash']" style="color: #E53935;" @click="deleteProductByList(orderDetalle.ord_det_product_id)" />
+                    </div>
+                  </div>
+                </div>
+                <!-- <div class="data-product__delete" @click="deleteProductByList(orderDetalle.ord_det_product_id)">
+                  <p>Eliminar</p>
+                </div> -->
+              </div>
+            </div>
+            <div v-else class="list-buy__body__null">
+              No hay productos en el carrito
+            </div>
+          </div>
+        </div>
+        <!-- Resumen de la compra -->
+        <div class="summary-buy">
+          <div class="summary-buy__title">
+            <p>Resumen de compras</p>
+          </div>
+          <div class="summary-buy__subtotal">
+            <div>
+              Subtotal
+            </div>
+            <div>
+              {{ subTotal }}
+            </div>
+          </div>
+          <div class="summary-buy__info">
+            <div>
+              Oferta
+            </div>
+            <div>
+              {{ subTotal }}
+            </div>
+          </div>
+          <div class="summary-buy__info">
+            <div>
+              Total
+            </div>
+            <div>
+              {{ subTotal }}
+            </div>
+          </div>
+          <div class="summary-buy__buy">
+            <button @click="buyProducts()">
+              Pagar
+            </button>
+          </div>
+        </div>
+      </div>
+      <div v-else class="container">
         <div class="list-buy">
           <!-- Name Store-->
           <div class="list-buy__title">
@@ -177,8 +262,17 @@ export default {
       }
     },
     calculationSubtotal () {
-      const total = this.listProductByBuy.reduce((acc, producto) => acc + Number(producto.ord_det_subtotal), 0)
-      this.subTotal = total.toFixed(2)
+      if (!Array.isArray(this.listProductByBuy)) {
+        this.subTotal = '0.00'
+        return
+      }
+
+      const total = this.listProductByBuy.reduce((acc, producto) => {
+        return acc + parseFloat(producto.ord_det_subtotal || 0)
+      }, 0)
+
+      this.subTotal = total.toFixed(2) // string para mostrar
+      console.log('Subtotal calculado:', this.subTotal)
     },
     deleteProductByList (data) {
       this.deleteProduct(data)

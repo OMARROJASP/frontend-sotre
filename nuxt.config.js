@@ -34,7 +34,8 @@ export default {
     '@/plugins/fontawesome.js',
     { src: '~/plugins/vue-slider.js', mode: 'client' },
     '@/plugins/test.js',
-    { src: '~/plugins/owl.client.js', mode: 'client', ssr: false }
+    { src: '~/plugins/owl.client.js', mode: 'client', ssr: false },
+    '@/plugins/detect-device.js'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

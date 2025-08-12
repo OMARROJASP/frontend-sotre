@@ -26,6 +26,7 @@ export const mutations = {
   },
 
   DELETE_PRODUCT (state, updatedList) {
+    console.log('Eliminando producto del carrito:', updatedList)
     state.listProductByBuy = updatedList
   }
 }
