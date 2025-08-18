@@ -1,0 +1,79 @@
+@use '../utilities.scss' as *;
+
+#page-perfil {
+
+  margin-top: 30px;
+
+  .body {
+    border: 1px solid;
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    gap: 10px;
+
+    @include mobile(){
+      display: flex;
+      flex-direction: column;
+    }
+
+    .barra-menu {
+
+
+      .title {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+      }
+      .menu {
+        list-style-type: none;
+        padding: 10px;
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        align-items: center;
+        @include desktop() {
+          flex-direction: column;
+        }
+
+        .components {
+          @include mobile() {
+            font-size: 12px;
+          }
+          width: 100%;
+          button {
+            width: 100%;
+            border: none;
+            color: #2A394D;
+
+            @include mobile () {
+              padding: 5px;
+              border-radius: 12px;
+            }
+
+            &:hover {
+              background: #E7F1F9;
+              color: #0D7CCE;
+            }
+
+            &.active {
+            background: #E7F1F9;
+            color: #0D7CCE;
+            font-weight: 600;
+          }
+          }
+        }
+      }
+
+      .line {
+        display: none;
+        margin: 10px;
+        @include mobile () {
+          display: block;
+        }
+      }
+
+
+    }
+  }
+
+}
