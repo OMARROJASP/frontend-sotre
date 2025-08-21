@@ -77,3 +77,76 @@
   }
 
 }
+
+
+#mis-datos-perfil {
+
+  .title-perfil {
+    text-align: center;
+    font-size: 20px;
+
+  }
+  .body-perfil {
+
+    &__view-data {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 12px;
+
+      @include mobile () {
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+
+      .info-data {
+        padding: 12px;
+        background: #fafafa;
+        margin: 0px 20px;
+        @include mobile () {
+          border: 1px solid #e0e0e0;
+          border-radius: 8px;
+          margin: 20px;
+        }
+
+        &.disable {
+          display: none;
+        }
+        &.address-data {
+      background: #f0f8ff;
+      border-color: #b3d9ff;
+    }
+    .detalle {
+      display: flex;
+      flex-direction: column;
+      &__title {
+        color: #0D7CCE;
+        font-weight: 600;
+      }
+      &__contenido {
+      font-weight: 500;
+      color: #333;
+      }
+    }
+
+      }
+    }
+
+    &__button {
+      width: 100%;
+      display: flex;
+      padding: 1rem;
+      justify-content: flex-end;
+      button {
+        background-color: red;
+        color: white;
+        font-weight: 500;
+        width: 100px;
+        border: 1px red;
+        border-radius: 8px;
+        height: 40px;
+      }
+    }
+
+  }
+
+}
