@@ -150,3 +150,92 @@
   }
 
 }
+
+#mis-pedidos-perfil {
+  .title {
+    font-size: 15px;
+    font-weight: 500;
+  }
+
+  section {
+    padding: 10px;
+    .pedidos {
+      border: 1px solid;
+      border-radius: 8px;
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      margin: 10px;
+      padding: 10px;
+
+      &__datos {
+        display: flex;
+        flex-direction: column;
+
+        &__status {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+
+          .contenedor-status {
+  @mixin status-style($bg-color, $text-color: white) {
+    display: flex;
+    width: 80%;
+    background-color: $bg-color;
+    color: $text-color;
+    font-weight: 500;
+    padding: 5px 10px;
+    border-radius: 8px;
+    border: 1px solid darken($bg-color, 15%);
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+
+    @include mobile {
+      width: 100%;
+    }
+  }
+
+  .COMPLETED {
+    @include status-style(#4caf50); // Verde más accesible
+  }
+
+  .IN_PROGRESS {
+    @include status-style(#ffeb3b, #333); // Amarillo con texto oscuro
+  }
+
+  .CREATED {
+    @include status-style(#ff9800); // Naranja
+  }
+
+  .CANCELLED {
+    @include status-style(#f44336); // Rojo
+  }
+
+  // Estados adicionales
+  .PENDING {
+    @include status-style(#9e9e9e); // Gris
+  }
+
+  .APPROVED {
+    @include status-style(#2196f3); // Azul
+  }
+}
+
+        }
+
+      }
+
+      &__detalle {
+        display: flex;
+        align-items: center;
+    justify-content: center;
+
+        button {
+          border-radius: 8px;
+    border: 1px #4caf50;
+    background: #4caf50;
+    color: white;
+    font-weight: 500;
+        }
+      }
+    }
+  }
+
+}
