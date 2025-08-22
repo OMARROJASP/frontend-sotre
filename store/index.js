@@ -7,8 +7,8 @@ export const state = () => ({
     address: {
       street: '',
       city: '',
-      state: '',
       zip_code: ''
+      // state: '',
     }
   },
   loggedIn: false

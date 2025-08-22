@@ -4,7 +4,7 @@
       <div class="title-perfil">
         <h2>Mis Datos</h2>
       </div>
-      <div class="body-perfil">
+      <div v-if="!activeEdit" class="body-perfil">
         <div class="body-perfil__view-data">
           <div
             v-for="(value, key) in user"
@@ -37,10 +37,10 @@
           </div>
         </div>
         <div class="body-perfil__button">
-          <button>Editar</button>
+          <button @click="EditData()">Editar</button>
         </div>
-        <CommonRegister v-if="activeEdit" />
       </div>
+      <CommonRegister v-else :type="message" />
     </div>
   </div>
 </template>
@@ -56,7 +56,8 @@ export default {
   },
   data () {
     return {
-      activeEdit: false
+      activeEdit: false,
+      message: 'Perfil'
     }
   },
   computed: {
@@ -67,9 +68,6 @@ export default {
       return this.$store.state.user
     }
   },
-  mounted () {
-    this.EditData()
-  },
   methods: {
     ...mapActions('index', ['logout']),
 
@@ -79,7 +77,7 @@ export default {
     },
 
     EditData () {
-      console.log('informascion de : ', this.user)
+      this.activeEdit = true
     },
 
     formatKey (key) {
@@ -103,7 +101,7 @@ export default {
       const addressMap = {
         street: 'Calle',
         city: 'Ciudad',
-        state: 'Estado',
+        // state: 'Estado',
         zip_code: 'Código Postal'
       }
       return addressMap[key] || key

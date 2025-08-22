@@ -1,10 +1,10 @@
 <template>
   <div id="register">
     <div class="registro-container">
-      <h2 class="title">
+      <h2 v-if="type != 'Perfil'" class="title">
         Registro de Usuario
       </h2>
-      <form class="form-container" @submit.prevent="registrarUsuario">
+      <form class="form-container" @submit.prevent="type == 'Perfil' ? updateUsuario() : registerUser()">
   <b-container class="bv-example-row">
     <b-row class="cont-data">
       <!-- Campos obligatorios -->
@@ -23,7 +23,7 @@
         <input id="correo" v-model="form.correo" placeholder="Ingrese su correo electrónico" type="email" required>
       </b-col>
 
-      <b-col class="cont-info" cols="12" md="6" lg="4">
+      <b-col v-if="type != 'Perfil'" class="cont-info" cols="12" md="6" lg="4">
         <label for="password">Contraseña *</label>
         <input
           id="password"
@@ -35,7 +35,7 @@
         >
       </b-col>
 
-      <b-col class="cont-info" cols="12" md="6" lg="4">
+      <b-col v-if="type != 'Perfil'" class="cont-info" cols="12" md="6" lg="4">
         <label for="repitPassword">Repita la Contraseña *</label>
         <input
           id="repitPassword"
@@ -109,6 +109,12 @@ export default {
   components: {
     CommonPopUp
   },
+  props: {
+    type: {
+      type: String,
+      default: 'Valor por defecto'
+    }
+  },
   data () {
     return {
       form: {
@@ -125,8 +131,16 @@ export default {
       showPopUp: false
     }
   },
+  computed: {
+    user () {
+      return this.$store.state.user
+    }
+  },
+  created () {
+    this.llamarUsurario()
+  },
   methods: {
-    ...mapActions('register', ['registerUser']),
+    ...mapActions('register', ['registerUser', 'updateUser']),
 
     registrarUsuario () {
       // Validación adicional si se requiere
@@ -167,6 +181,47 @@ export default {
       } else {
         this.Fauthentification = true
       }
+    },
+    updateUsuario () {
+      // Validación adicional si se requiere
+      if (
+        !this.form.nombre ||
+        !this.form.apellido ||
+        !this.form.correo ||
+        !this.form.telefono
+      ) {
+        alert('Por favor, completa todos los campos obligatorios.')
+        return
+      }
+
+      console.log('Datos del formulario:', this.form)
+
+      const payload = {
+        cx_first_name: this.form.nombre,
+        cx_last_name: this.form.apellido,
+        cx_email: this.form.correo,
+        cx_phone: this.form.telefono,
+        cx_address: this.form.direccion,
+        cx_city: this.form.ciudad,
+        cx_postal_code: this.form.codigo_postal
+      }
+
+      const result = this.updateUser(payload)
+      if (result) {
+        this.$router.push('/')
+      } else {
+        this.Fauthentification = true
+      }
+    },
+    llamarUsurario () {
+      // Se llama a la data del usuario
+      this.form.nombre = this.user.first_name
+      this.form.apellido = this.user.last_name
+      this.form.correo = this.user.email
+      this.form.telefono = this.user.phone
+      this.form.ciudad = this.user.address.city
+      this.form.direccion = this.user.address.street
+      this.form.codigo_postal = this.user.address.zip_code
     },
     goHome () {
       this.$router.push('/')
